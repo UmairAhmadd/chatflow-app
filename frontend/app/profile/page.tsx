@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, Check } from "lucide-react";
+import { ArrowLeft, Camera, Loader2, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import api from "@/lib/api";
 import { useChatStore } from "@/lib/store";
@@ -20,6 +20,8 @@ export default function ProfilePage() {
   const [avatar, setAvatar] = useState("");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [reading, setReading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") router.replace("/login");
@@ -37,6 +39,28 @@ export default function ProfilePage() {
       setAvatar(data.user.avatar || "");
     });
   }, [session, setCurrentUser]);
+
+  // Read the chosen image as a base64 data URL and stash it in `avatar`.
+  // It gets persisted to MongoDB on Save (no upload service needed).
+  const handleAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Base64 inflates ~33%; keep it under the backend's 5mb JSON limit.
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Please choose an image under 2 MB.");
+      } else {
+        setReading(true);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setAvatar(reader.result as string);
+          setReading(false);
+        };
+        reader.onerror = () => setReading(false);
+        reader.readAsDataURL(file);
+      }
+    }
+    if (fileRef.current) fileRef.current.value = "";
+  };
 
   const save = async () => {
     setSaving(true);
@@ -71,7 +95,28 @@ export default function ProfilePage() {
           </p>
 
           <div className="mt-8 flex items-center gap-4">
-            <Avatar src={avatar} name={name || currentUser?.name} size={80} />
+            <div className="relative">
+              <Avatar src={avatar} name={name || currentUser?.name} size={80} />
+              <button
+                onClick={() => fileRef.current?.click()}
+                disabled={reading}
+                aria-label="Change avatar"
+                className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-accent text-white"
+              >
+                {reading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Camera className="h-4 w-4" />
+                )}
+              </button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatar}
+              />
+            </div>
             <div className="min-w-0">
               <p className="font-medium text-zinc-100">
                 {currentUser?.name}
@@ -81,23 +126,6 @@ export default function ProfilePage() {
           </div>
 
           <div className="mt-8 space-y-4">
-            <div>
-              <label className="mb-1.5 block text-sm text-zinc-400">
-                Avatar image URL
-              </label>
-              <input
-                className="input"
-                type="url"
-                inputMode="url"
-                placeholder="https://example.com/photo.jpg"
-                value={avatar}
-                onChange={(e) => setAvatar(e.target.value)}
-              />
-              <p className="mt-1 text-xs text-muted">
-                Paste a link to an image — the preview above updates as you type.
-                Save to apply it everywhere.
-              </p>
-            </div>
             <div>
               <label className="mb-1.5 block text-sm text-zinc-400">Name</label>
               <input

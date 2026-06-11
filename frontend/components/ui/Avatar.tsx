@@ -12,16 +12,32 @@ interface AvatarProps {
 }
 
 export function Avatar({ src, name, size = 40, online, className }: AvatarProps) {
+  // base64 data URLs aren't reliably handled by next/image — render them with
+  // a plain <img>; everything else goes through the optimizer.
+  const isDataUrl = src?.startsWith("data:");
+
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>
       {src ? (
-        <Image
-          src={src}
-          alt={name || "avatar"}
-          width={size}
-          height={size}
-          className={cn("rounded-full object-cover", className)}
-        />
+        isDataUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt={name || "avatar"}
+            width={size}
+            height={size}
+            className={cn("rounded-full object-cover", className)}
+            style={{ width: size, height: size }}
+          />
+        ) : (
+          <Image
+            src={src}
+            alt={name || "avatar"}
+            width={size}
+            height={size}
+            className={cn("rounded-full object-cover", className)}
+          />
+        )
       ) : (
         <div
           className={cn(
