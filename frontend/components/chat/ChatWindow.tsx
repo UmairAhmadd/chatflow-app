@@ -68,8 +68,8 @@ export function ChatWindow({
         )}
       >
         <ThemeToggle className="absolute right-4 top-4" />
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-green-50 dark:bg-green-500/10">
-          <MessagesSquare className="h-8 w-8 text-green-500" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-500/10">
+          <MessagesSquare className="h-8 w-8 text-indigo-500" />
         </div>
         <h2 className="mt-4 text-lg font-medium text-gray-700 dark:text-zinc-300">
           Select a conversation

@@ -55,7 +55,7 @@ export function ChatList({
         <div className="relative">
           <button
             onClick={() => setMenuOpen((o) => !o)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-500 text-white transition hover:bg-green-600"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500 text-white transition hover:bg-indigo-600"
             title="New conversation"
             aria-label="New conversation"
           >
@@ -97,7 +97,7 @@ export function ChatList({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-zinc-500" />
           <input
-            className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-green-400 focus:bg-white focus:ring-1 focus:ring-green-400 dark:border-border dark:bg-background dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:bg-background"
+            className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-indigo-400 focus:bg-white focus:ring-1 focus:ring-indigo-400 dark:border-border dark:bg-background dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:bg-background"
             placeholder="Search conversations..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -114,7 +114,7 @@ export function ChatList({
             className={cn(
               "rounded-full px-3 py-1 text-xs font-medium transition",
               category === c.key
-                ? "bg-green-500 text-white"
+                ? "bg-indigo-500 text-white"
                 : "bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-surfaceHover dark:text-zinc-400 dark:hover:bg-border"
             )}
           >
@@ -143,7 +143,7 @@ export function ChatList({
               className={cn(
                 "flex w-full items-center gap-3 rounded-xl px-2.5 py-2.5 text-left transition",
                 isActive
-                  ? "bg-green-50 dark:bg-green-500/10"
+                  ? "bg-indigo-50 dark:bg-indigo-500/10"
                   : "hover:bg-gray-50 dark:hover:bg-surfaceHover"
               )}
             >
@@ -173,7 +173,7 @@ export function ChatList({
                       : "No messages yet"}
                   </span>
                   {room.unread > 0 && (
-                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-green-500 px-1.5 text-[11px] font-medium text-white">
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-500 px-1.5 text-[11px] font-medium text-white">
                       {room.unread}
                     </span>
                   )}

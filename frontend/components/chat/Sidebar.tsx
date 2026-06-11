@@ -49,7 +49,7 @@ export function Sidebar({
         // min 44px touch target on every viewport
         "flex h-11 w-11 items-center justify-center rounded-xl transition",
         active
-          ? "bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400"
+          ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400"
           : "text-gray-400 hover:bg-gray-100 hover:text-gray-700 dark:text-zinc-500 dark:hover:bg-surfaceHover dark:hover:text-zinc-200"
       )}
     >
@@ -68,7 +68,7 @@ export function Sidebar({
       )}
     >
       {/* Logo — desktop only */}
-      <div className="mb-3 hidden h-10 w-10 items-center justify-center rounded-xl bg-green-500 lg:flex">
+      <div className="mb-3 hidden h-10 w-10 items-center justify-center rounded-xl bg-indigo-500 lg:flex">
         <MessagesSquare className="h-5 w-5 text-white" />
       </div>
 

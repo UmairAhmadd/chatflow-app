@@ -9,7 +9,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import type { User } from "@/lib/types";
 
 const modalInput =
-  "w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-green-400 focus:bg-white focus:ring-1 focus:ring-green-400 dark:border-border dark:bg-background dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:bg-background";
+  "w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-indigo-400 focus:bg-white focus:ring-1 focus:ring-indigo-400 dark:border-border dark:bg-background dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:bg-background";
 
 export function NewChatModal({
   mode,
@@ -145,7 +145,7 @@ export function NewChatModal({
                       <p className="truncate text-xs text-gray-400 dark:text-zinc-500">{u.email}</p>
                     </div>
                     {mode === "group" && isSelected && (
-                      <Check className="h-4 w-4 text-green-600" />
+                      <Check className="h-4 w-4 text-indigo-600" />
                     )}
                   </button>
                 );
@@ -161,7 +161,7 @@ export function NewChatModal({
             <button
               onClick={createGroup}
               disabled={!groupName.trim() || submitting}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-green-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-green-600 disabled:opacity-50"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600 disabled:opacity-50"
             >
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               Create group ({Object.keys(selected).length} members)

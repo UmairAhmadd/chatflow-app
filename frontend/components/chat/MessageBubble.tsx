@@ -39,7 +39,7 @@ export function MessageBubble({
 
       <div className={cn("max-w-[68%]", mine && "items-end")}>
         {isGroup && !mine && showAvatar && (
-          <span className="mb-0.5 block px-1 text-xs font-medium text-green-600 dark:text-green-400">
+          <span className="mb-0.5 block px-1 text-xs font-medium text-indigo-600 dark:text-indigo-400">
             {sender?.name}
           </span>
         )}
@@ -47,7 +47,7 @@ export function MessageBubble({
           className={cn(
             "rounded-2xl px-3.5 py-2 text-sm shadow-sm",
             mine
-              ? "rounded-br-md bg-green-500 text-white"
+              ? "rounded-br-md bg-indigo-500 text-white"
               : "rounded-bl-md border border-gray-200 bg-white text-gray-800 dark:border-border dark:bg-surfaceHover dark:text-zinc-200"
           )}
         >

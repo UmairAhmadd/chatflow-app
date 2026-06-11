@@ -20,7 +20,7 @@ function Toggle({
       onClick={onClick}
       className={cn(
         "relative h-5 w-9 rounded-full transition",
-        on ? "bg-green-500" : "bg-gray-200 dark:bg-zinc-700"
+        on ? "bg-indigo-500" : "bg-gray-200 dark:bg-zinc-700"
       )}
       role="switch"
       aria-checked={on}
