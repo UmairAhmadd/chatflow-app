@@ -31,9 +31,13 @@ export default function AuthLayout({
           </p>
         </div>
 
-        {/* Robot: shorter on mobile, fits its container (overflow hidden) */}
+        {/* Robot: shorter on mobile, fits its container (overflow hidden).
+            Scale the scene down on mobile so it isn't cut off; full on desktop. */}
         <div className="relative mt-2 h-[300px] w-full overflow-hidden lg:mt-4 lg:h-[480px]">
-          <SplineScene scene={SCENE_URL} className="h-full w-full" />
+          <SplineScene
+            scene={SCENE_URL}
+            className="h-full w-full scale-[0.8] lg:scale-100"
+          />
           <div className="pointer-events-none absolute inset-0 bg-[#080808]/30" />
         </div>
       </div>
