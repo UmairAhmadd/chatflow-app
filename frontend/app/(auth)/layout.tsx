@@ -40,7 +40,7 @@ export default function AuthLayout({
       {/* Right: robot — smaller heading + shorter robot on mobile */}
       <div className="flex flex-[0_0_52%] flex-col items-center overflow-hidden lg:flex-1">
         {/* Heading */}
-        <div className="px-4 pt-[20px] text-center lg:px-10 lg:pt-10">
+        <div className="px-4 pt-[60px] text-center lg:px-10 lg:pt-10">
           <h2 className="mb-1 text-base font-semibold text-white lg:mb-2 lg:text-2xl">
             Chat that keeps your team in flow.
           </h2>
@@ -51,7 +51,7 @@ export default function AuthLayout({
 
         {/* Robot: shorter on mobile, fits its container (overflow hidden).
             Scale the scene down on mobile so it isn't cut off; full on desktop. */}
-        <div className="relative mt-[20px] h-[300px] w-full overflow-hidden lg:mt-4 lg:h-[480px]">
+        <div className="relative mt-[10px] h-[300px] w-full overflow-hidden lg:mt-4 lg:h-[480px]">
           <SplineScene
             scene={SCENE_URL}
             className="h-full w-full scale-[0.95] lg:scale-100"
