@@ -82,18 +82,21 @@ export function ChatList({
   const activeRoomId = useChatStore((s) => s.activeRoomId);
   const onlineUserIds = useChatStore((s) => s.onlineUserIds);
 
+  // Only conversations that have at least one message — hide empty ones.
+  const activeRooms = rooms.filter((r) => !!r.lastMessage);
+
   // Counts shown as badges. Only the data-backed categories can be non-zero.
   const counts = {
-    new: rooms.filter((r) => r.unread > 0).length,
-    all: rooms.length,
-    assigned: rooms.filter((r) => r.type === "group").length,
+    new: activeRooms.filter((r) => r.unread > 0).length,
+    all: activeRooms.length,
+    assigned: activeRooms.filter((r) => r.type === "group").length,
     favourites: 0,
     negotiations: 0,
     closed: 0,
     archives: 0,
   };
 
-  const filtered = rooms
+  const filtered = activeRooms
     .filter((r) => inCategory(r, category))
     .filter((r) => r.name.toLowerCase().includes(query.toLowerCase()));
 

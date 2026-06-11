@@ -5,6 +5,7 @@ import { X, Search, Loader2, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useChatStore } from "@/lib/store";
 import { Avatar } from "@/components/ui/Avatar";
 import type { User } from "@/lib/types";
 
@@ -28,6 +29,10 @@ export function NewChatModal({
   const [groupName, setGroupName] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const currentUser = useChatStore((s) => s.currentUser);
+
+  // Never let someone start a chat with themselves.
+  const visibleUsers = users.filter((u) => u._id !== currentUser?._id);
 
   useEffect(() => {
     setLoading(true);
@@ -129,7 +134,7 @@ export function NewChatModal({
               </div>
             )}
             {!loading &&
-              users.map((u) => {
+              visibleUsers.map((u) => {
                 const isSelected = !!selected[u._id];
                 return (
                   <button
@@ -151,7 +156,7 @@ export function NewChatModal({
                   </button>
                 );
               })}
-            {!loading && users.length === 0 && (
+            {!loading && visibleUsers.length === 0 && (
               <p className="py-6 text-center text-sm text-gray-400 dark:text-zinc-500">
                 No users found.
               </p>
