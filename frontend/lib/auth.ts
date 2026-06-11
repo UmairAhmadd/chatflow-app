@@ -26,6 +26,21 @@ const backend = axios.create({
   timeout: 15000,
 });
 
+// Read the canonical GOOGLE_CLIENT_* names, falling back to the older
+// GOOGLE_ID/GOOGLE_SECRET so existing local envs keep working. Empty
+// credentials are what trigger NextAuth's "OAuthSignin" error in production.
+const GOOGLE_CLIENT_ID =
+  process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_ID || "";
+const GOOGLE_CLIENT_SECRET =
+  process.env.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_SECRET || "";
+
+if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+  console.error(
+    "[auth] Missing Google OAuth credentials — set GOOGLE_CLIENT_ID and " +
+      "GOOGLE_CLIENT_SECRET. Sign-in will fail with OAuthSignin."
+  );
+}
+
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
@@ -33,8 +48,8 @@ export const authOptions: NextAuthOptions = {
   debug: process.env.NODE_ENV !== "production",
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID || "",
-      clientSecret: process.env.GOOGLE_SECRET || "",
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
       name: "Credentials",
