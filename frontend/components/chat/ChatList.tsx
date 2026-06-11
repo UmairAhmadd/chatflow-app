@@ -156,6 +156,71 @@ export function ChatList({
     );
   };
 
+  // Conversations for the selected category, rendered inline beneath its row.
+  const ConversationList = () => (
+    <div className="space-y-0.5 py-1">
+      {filtered.length === 0 ? (
+        <p className="px-3 py-4 text-center text-xs text-gray-400 dark:text-zinc-500">
+          No conversations here.
+        </p>
+      ) : (
+        filtered.map((room) => {
+          const online =
+            room.type === "dm" && room.otherUserId
+              ? onlineUserIds.has(room.otherUserId)
+              : undefined;
+          const isActive = room.id === activeRoomId;
+          return (
+            <motion.button
+              key={room.id}
+              layout
+              onClick={() => onSelect(room)}
+              className={cn(
+                "flex w-full items-center gap-3 rounded-xl px-2.5 py-2.5 text-left transition",
+                isActive
+                  ? "bg-indigo-50 dark:bg-indigo-500/10"
+                  : "hover:bg-gray-50 dark:hover:bg-surfaceHover"
+              )}
+            >
+              <Avatar
+                src={room.avatar}
+                name={room.name}
+                size={46}
+                online={online}
+              />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="truncate text-sm font-medium text-gray-900 dark:text-zinc-100">
+                    {room.name}
+                  </span>
+                  {room.lastMessage && (
+                    <span className="shrink-0 text-[11px] text-gray-400 dark:text-zinc-500">
+                      {formatTime(room.lastMessage.createdAt)}
+                    </span>
+                  )}
+                </div>
+                <div className="mt-0.5 flex items-center justify-between gap-2">
+                  <span className="truncate text-xs text-gray-500 dark:text-zinc-400">
+                    {room.lastMessage
+                      ? room.lastMessage.type === "text"
+                        ? room.lastMessage.content
+                        : `📎 ${room.lastMessage.type}`
+                      : "No messages yet"}
+                  </span>
+                  {room.unread > 0 && (
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-500 px-1.5 text-[11px] font-medium text-white">
+                      {room.unread}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </motion.button>
+          );
+        })
+      )}
+    </div>
+  );
+
   return (
     <div
       className={cn(
@@ -321,68 +386,10 @@ export function ChatList({
           </div>
         )}
 
-        <div className="my-2 border-t border-gray-100 dark:border-border/70" />
-
-        {/* Conversation list (filtered by selected category) */}
-        <div className="space-y-0.5 pb-2">
-          {filtered.length === 0 && (
-            <p className="px-3 py-8 text-center text-sm text-gray-400 dark:text-zinc-500">
-              No conversations here.
-            </p>
-          )}
-          {filtered.map((room) => {
-            const online =
-              room.type === "dm" && room.otherUserId
-                ? onlineUserIds.has(room.otherUserId)
-                : undefined;
-            const isActive = room.id === activeRoomId;
-            return (
-              <motion.button
-                key={room.id}
-                layout
-                onClick={() => onSelect(room)}
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-xl px-2.5 py-2.5 text-left transition",
-                  isActive
-                    ? "bg-indigo-50 dark:bg-indigo-500/10"
-                    : "hover:bg-gray-50 dark:hover:bg-surfaceHover"
-                )}
-              >
-                <Avatar
-                  src={room.avatar}
-                  name={room.name}
-                  size={46}
-                  online={online}
-                />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="truncate text-sm font-medium text-gray-900 dark:text-zinc-100">
-                      {room.name}
-                    </span>
-                    {room.lastMessage && (
-                      <span className="shrink-0 text-[11px] text-gray-400 dark:text-zinc-500">
-                        {formatTime(room.lastMessage.createdAt)}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-0.5 flex items-center justify-between gap-2">
-                    <span className="truncate text-xs text-gray-500 dark:text-zinc-400">
-                      {room.lastMessage
-                        ? room.lastMessage.type === "text"
-                          ? room.lastMessage.content
-                          : `📎 ${room.lastMessage.type}`
-                        : "No messages yet"}
-                    </span>
-                    {room.unread > 0 && (
-                      <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-500 px-1.5 text-[11px] font-medium text-white">
-                        {room.unread}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </motion.button>
-            );
-          })}
+        {/* Conversations for the selected category — directly below the
+            categories in the same continuous scroll (no separate section). */}
+        <div className="px-1 pb-2">
+          <ConversationList />
         </div>
       </div>
 

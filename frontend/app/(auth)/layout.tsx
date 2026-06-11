@@ -1,6 +1,24 @@
-import { SplineScene } from "@/components/ui/splite";
+"use client";
+
+import dynamic from "next/dynamic";
 
 const SCENE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
+
+// Lazy-load the heavy Spline 3D scene on the client only (no SSR). The dynamic
+// `loading` fallback shows a dark placeholder while the bundle downloads — this
+// keeps the auth page fast to first paint, especially on mobile.
+const SplineScene = dynamic(
+  () =>
+    import("@/components/ui/splite").then((m) => ({ default: m.SplineScene })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full w-full items-center justify-center bg-[#080808]">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
+      </div>
+    ),
+  }
+);
 
 export default function AuthLayout({
   children,
