@@ -1,130 +1,201 @@
+<div align="center">
+
 # ChatFlow 💬
 
-A full-stack, real-time chat application for remote teams. Direct messages, group
-chats, presence, typing indicators, read receipts, and image/file sharing — wrapped
-in a clean, dark, Linear/Vercel-style UI.
+### Real-time chat app for remote teams
 
-## Tech Stack
+[![Live Demo](https://img.shields.io/badge/Live_Demo-chatflow--teams.vercel.app-000000?logo=vercel&logoColor=white)](https://chatflow-teams.vercel.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#-license)
 
-| Layer    | Tech |
-|----------|------|
-| Frontend | Next.js 14 (App Router), TypeScript, Tailwind CSS, Zustand, Socket.io-client, Framer Motion, NextAuth.js, Spline |
-| Backend  | Node.js, Express, Socket.io, MongoDB + Mongoose, JWT, Bcrypt, Cloudinary |
+[![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![Socket.io](https://img.shields.io/badge/Socket.io-4-010101?logo=socket.io&logoColor=white)](https://socket.io/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![NextAuth.js](https://img.shields.io/badge/NextAuth.js-4-7C3AED?logo=auth0&logoColor=white)](https://next-auth.js.org/)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-media-3448C5?logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-## Project Structure
+**[🚀 Live Demo](https://chatflow-teams.vercel.app)**
+
+</div>
+
+---
+
+ChatFlow is a full-stack, real-time messaging app built for remote teams — direct
+messages, group chats, presence, typing indicators, and read receipts, with a
+clean UI that supports both light and dark themes.
+
+## ✨ Features
+
+- 💬 **Real-time messaging** — instant delivery over Socket.io
+- 👤 **Direct messages** — one-to-one conversations
+- 👥 **Group chats** — create groups and message many at once
+- 🟢 **Online status** — live presence indicator (green dot)
+- ✓✓ **Read receipts** — blue double-tick when messages are seen
+- ⌨️ **Typing indicators** — see when someone is typing
+- 🌗 **Dark / Light mode** — theme toggle, preference saved in `localStorage`
+- 📎 **File sharing** — images and files via Cloudinary
+
+## 🛠 Tech Stack
+
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend** | Next.js 14 (App Router), TypeScript, Tailwind CSS, NextAuth.js, Zustand, Socket.io-client, Framer Motion |
+| **Backend** | Node.js, Express, Socket.io, MongoDB + Mongoose, JWT, Bcrypt |
+| **Media** | Cloudinary (file uploads) |
+| **Deployment** | Frontend on **Vercel**, Backend on **Railway** |
+
+## 📁 Project Structure
 
 ```
 ChatFlow App/
 ├── backend/
-│   ├── server.js              # Express + Socket.io entry
-│   ├── config/                # db.js, cloudinary.js
-│   ├── models/                # User, Message, Conversation, Group
-│   ├── routes/                # auth, user, chat, group, media
-│   ├── middleware/            # authMiddleware.js (JWT protect + token gen)
-│   └── socket/                # socketHandler.js (presence, messaging, typing, read)
+│   ├── server.js            # Express + Socket.io entry
+│   ├── config/              # db.js, cloudinary.js
+│   ├── models/              # User, Message, Conversation, Group
+│   ├── routes/              # auth, user, chat, group, media
+│   ├── middleware/          # authMiddleware.js (JWT protect + token gen)
+│   └── socket/              # socketHandler.js (presence, messaging, typing, read)
 └── frontend/
     ├── app/
-    │   ├── (auth)/            # login + register (split layout w/ Spline)
-    │   ├── chat/             # 3-column chat app
-    │   ├── profile/          # profile editor
-    │   └── api/auth/         # NextAuth route handler
-    ├── components/           # ui/ + chat/ components
-    ├── hooks/                # useChatSocket
-    └── lib/                  # api, socket, store (Zustand), auth, types
+    │   ├── (auth)/          # login + register
+    │   ├── chat/            # main chat UI
+    │   ├── profile/         # profile editor
+    │   └── api/auth/        # NextAuth route handler
+    ├── components/          # ui/ + chat/ components
+    ├── hooks/               # useChatSocket
+    └── lib/                 # api, socket, store (Zustand), auth, types
 ```
 
-## Features
-
-- 🔐 JWT auth with protected routes (Credentials + Google OAuth via NextAuth)
-- 💬 Real-time DMs and group chats over Socket.io
-- 🟢 Online/offline presence (green dot)
-- ✓✓ Read receipts (blue double tick)
-- ⌨️ Typing indicators ("Ali is typing…")
-- 📎 Image & file sharing via Cloudinary
-- 🔴 Unread message badges
-- 👤 Profile page (name, bio, avatar)
-
----
-
-## Getting Started
+## 🚀 Getting Started (Local Setup)
 
 ### Prerequisites
-- Node.js 18+
-- A MongoDB instance (local or Atlas)
-- A Cloudinary account (for media uploads)
-- Google OAuth credentials (optional, for Google sign-in)
+- **Node.js 18+**
+- A **MongoDB** instance (local or [Atlas](https://www.mongodb.com/atlas))
+- A **Cloudinary** account (for file/image sharing)
+- **Google OAuth** credentials (optional, for Google sign-in)
 
-### 1. Backend
+### 1. Clone
+
+```bash
+git clone https://github.com/your-username/chatflow.git
+cd "ChatFlow App"
+```
+
+### 2. Backend
 
 ```bash
 cd backend
 npm install
-cp .env.example .env      # then fill in the values
-npm run dev               # starts on http://localhost:5000
+# create a .env file (see "Environment Variables" below)
+npm run dev          # starts on http://localhost:5000
 ```
 
-`.env`:
-```
-PORT=5000
-CLIENT_URL=http://localhost:3000
-MONGODB_URI=mongodb://127.0.0.1:27017/chatflow
-JWT_SECRET=<long random string>
-JWT_EXPIRES_IN=7d
-CLOUDINARY_NAME=<...>
-CLOUDINARY_KEY=<...>
-CLOUDINARY_SECRET=<...>
-```
-
-### 2. Frontend
+### 3. Frontend
 
 ```bash
 cd frontend
 npm install
-cp .env.local.example .env.local   # then fill in the values
-npm run dev                        # starts on http://localhost:3000
+# create a .env.local file (see "Environment Variables" below)
+npm run dev          # starts on http://localhost:3000
 ```
 
-`.env.local`:
+Open **http://localhost:3000** — you'll be redirected to `/login`. Register two
+accounts (two browsers or an incognito window) to see real-time messaging,
+presence, typing, and read receipts in action.
+
+## 🔑 Environment Variables
+
+### Backend — `backend/.env`
+
+| Variable | Description |
+|----------|-------------|
+| `PORT` | API port (default `5000`) |
+| `CLIENT_URL` | Frontend origin, for CORS (e.g. `http://localhost:3000`) |
+| `MONGODB_URI` | MongoDB connection string |
+| `JWT_SECRET` | Secret used to sign backend JWTs |
+| `JWT_EXPIRES_IN` | Token lifetime (optional, default `7d`) |
+| `CLOUDINARY_NAME` | Cloudinary cloud name |
+| `CLOUDINARY_KEY` | Cloudinary API key |
+| `CLOUDINARY_SECRET` | Cloudinary API secret |
+
+```env
+PORT=5000
+CLIENT_URL=http://localhost:3000
+MONGODB_URI=mongodb://127.0.0.1:27017/chatflow
+JWT_SECRET=your_long_random_secret
+JWT_EXPIRES_IN=7d
+CLOUDINARY_NAME=your_cloud_name
+CLOUDINARY_KEY=your_api_key
+CLOUDINARY_SECRET=your_api_secret
 ```
+
+### Frontend — `frontend/.env.local`
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_API_URL` | Backend base URL (e.g. `http://localhost:5000`) |
+| `NEXTAUTH_URL` | This app's URL (e.g. `http://localhost:3000`) |
+| `NEXTAUTH_SECRET` | Secret used by NextAuth to encrypt sessions |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID (optional) |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret (optional) |
+
+```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
 NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=<long random string>
-GOOGLE_ID=<google client id>
-GOOGLE_SECRET=<google client secret>
+NEXTAUTH_SECRET=your_long_random_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-> The Spline 3D robot component was added per spec:
-> `npx shadcn@latest add https://21st.dev/r/serafimcloud/splite`
-> A ready-to-use `components/ui/splite.tsx` is already included.
+> Generate strong secrets with: `openssl rand -base64 32`
 
-### 3. Use it
-1. Open http://localhost:3000 → redirected to `/login`.
-2. Register two accounts (or use Google) in two browsers/incognito windows.
-3. Start a DM via the **+** button, or create a group from the Groups tab.
-4. Watch real-time messages, typing indicators, presence, and read receipts.
+## ☁️ Deployment
+
+**Frontend → Vercel**
+- Import the `frontend/` directory as a Vercel project.
+- Set env vars: `NEXT_PUBLIC_API_URL` (your Railway backend URL), `NEXTAUTH_URL`
+  (your Vercel URL, e.g. `https://chatflow-teams.vercel.app`), `NEXTAUTH_SECRET`,
+  and `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`.
+
+**Backend → Railway**
+- Deploy the `backend/` directory (`npm start`).
+- Set env vars: `MONGODB_URI`, `JWT_SECRET`, `CLOUDINARY_*`, and `CLIENT_URL`
+  (your Vercel URL, for CORS). Railway provides `PORT` automatically.
+
+> **Google OAuth:** add `https://<your-vercel-domain>/api/auth/callback/google`
+> as an authorized redirect URI, and your Vercel domain as an authorized origin,
+> in the Google Cloud Console.
+
+## 📡 Socket.io Events
+
+| Event | Direction | Purpose |
+|-------|-----------|---------|
+| `user:online` / `user:offline` | server → all | presence broadcast |
+| `users:online` | server → client | initial online list |
+| `room:join` | client → server | join a DM/group room |
+| `message:send` | client → server | send a message |
+| `message:new` | server → room | new message delivered |
+| `message:read` | both | mark / notify read (blue tick) |
+| `typing:start` / `typing:stop` | both | typing indicator |
+
+## 📜 Scripts
+
+| Location | Command | Description |
+|----------|---------|-------------|
+| `backend/` | `npm run dev` | Start API with nodemon |
+| `backend/` | `npm start` | Start API (production) |
+| `frontend/` | `npm run dev` | Start Next.js dev server |
+| `frontend/` | `npm run build` | Production build |
+| `frontend/` | `npm start` | Serve the production build |
+
+## 📄 License
+
+Released under the **MIT License**.
 
 ---
 
-## Socket.io Events
-
-| Event            | Direction        | Purpose |
-|------------------|------------------|---------|
-| `user:online` / `user:offline` | server → all | presence broadcast |
-| `users:online`   | server → client  | initial online list |
-| `room:join`      | client → server  | join a DM/group room |
-| `message:send`   | client → server  | send a message |
-| `message:new`    | server → room    | new message delivered |
-| `message:read`   | both             | mark/notify read (blue tick) |
-| `typing:start` / `typing:stop` | both | typing indicator |
-
-## Data Models
-
-- **User**: name, email, password (hashed), avatar, bio, isOnline, lastSeen
-- **Message**: sender, roomId, roomType (dm/group), content, type (text/image/file), fileUrl, readBy[]
-- **Conversation**: participants[2], lastMessage
-- **Group**: name, avatar, admin, members[], lastMessage
-
-## Notes
-- Auth uses NextAuth on the frontend; the backend issues its own JWT that the client
-  stores and sends as a `Bearer` token (and to authenticate the socket handshake).
-- Read receipts and presence are best-effort and broadcast per-room.
+<div align="center">
+Built with ❤️ using Next.js, Express &amp; Socket.io
+</div>
