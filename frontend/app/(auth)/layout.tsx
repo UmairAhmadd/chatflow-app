@@ -4,6 +4,10 @@ import dynamic from "next/dynamic";
 
 const SCENE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
 
+// Glassmorphism floating cards around the robot (desktop only).
+const cardClass =
+  "pointer-events-none absolute z-10 hidden animate-float whitespace-nowrap rounded-xl border border-white/15 bg-white/[0.08] px-[14px] py-2 text-xs text-white backdrop-blur-[10px] lg:block";
+
 // Lazy-load the heavy Spline 3D scene on the client only (no SSR). The dynamic
 // `loading` fallback shows a dark placeholder while the bundle downloads — this
 // keeps the auth page fast to first paint, especially on mobile.
@@ -13,7 +17,7 @@ const SplineScene = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full w-full items-center justify-center bg-[#080808]">
+      <div className="flex h-full w-full items-center justify-center bg-transparent">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
       </div>
     ),
@@ -56,7 +60,20 @@ export default function AuthLayout({
             scene={SCENE_URL}
             className="h-full w-full scale-[0.95] lg:scale-100"
           />
-          <div className="pointer-events-none absolute inset-0 bg-[#080808]/30" />
+
+          {/* Floating activity cards around the robot — desktop only */}
+          <div className={cardClass} style={{ top: "12%", left: "6%", animationDelay: "0s" }}>
+            💬 New Message
+          </div>
+          <div className={cardClass} style={{ top: "12%", right: "6%", animationDelay: "0.8s" }}>
+            👥 5 Members Online
+          </div>
+          <div className={cardClass} style={{ bottom: "12%", left: "6%", animationDelay: "1.6s" }}>
+            📎 File Shared
+          </div>
+          <div className={cardClass} style={{ bottom: "12%", right: "6%", animationDelay: "2.4s" }}>
+            🔔 3 Notifications
+          </div>
         </div>
       </div>
     </div>

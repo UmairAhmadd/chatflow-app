@@ -28,7 +28,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (!currentUser?._id) return;
     api.get("/chat/conversations").then(({ data }) => {
-      setRooms(buildRooms(data.dms, data.groups, currentUser._id));
+      setRooms(buildRooms(data.dms, data.groups, currentUser._id, data.unread));
     });
   }, [currentUser?._id, setRooms]);
 

@@ -48,6 +48,7 @@ export interface ChatRoom {
   otherUserId?: string;
   otherEmail?: string; // DM only — the other participant's email
   joinedAt?: string; // DM only — the other participant's account creation date
+  lastSeen?: string; // DM only — the other participant's last-seen timestamp
   lastMessage?: Message;
   unread: number;
 }

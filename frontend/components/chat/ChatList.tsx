@@ -268,7 +268,7 @@ export function ChatList({
         <div className="relative">
           <button
             onClick={() => setMenuOpen((o) => !o)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500 text-white transition hover:bg-indigo-600 lg:h-9 lg:w-9"
+            className="flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-500 text-white transition hover:bg-indigo-600 lg:h-9 lg:w-9"
             title="New conversation"
             aria-label="New conversation"
           >

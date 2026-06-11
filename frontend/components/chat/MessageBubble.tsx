@@ -13,12 +13,14 @@ export function MessageBubble({
   showAvatar,
   isGroup,
   otherReadCount,
+  delivered,
 }: {
   message: Message;
   mine: boolean;
   showAvatar: boolean;
   isGroup: boolean;
   otherReadCount: number;
+  delivered?: boolean;
 }) {
   const sender = message.sender as User;
 
@@ -83,9 +85,14 @@ export function MessageBubble({
           {formatTime(message.createdAt)}
           {mine &&
             (otherReadCount > 0 ? (
-              <CheckCheck className="h-3.5 w-3.5 text-sky-500" />
+              // Read — purple double tick
+              <CheckCheck className="h-3.5 w-3.5 text-indigo-500" />
+            ) : delivered ? (
+              // Delivered — grey double tick
+              <CheckCheck className="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500" />
             ) : (
-              <Check className="h-3.5 w-3.5 text-gray-400" />
+              // Sent — grey single tick
+              <Check className="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500" />
             ))}
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { MessagesSquare, ArrowLeft, PanelRight, Plus } from "lucide-react";
 import api from "@/lib/api";
 import { currentSocket } from "@/lib/socket";
-import { cn } from "@/lib/utils";
+import { cn, timeAgo } from "@/lib/utils";
 import { useChatStore } from "@/lib/store";
 import { Avatar } from "@/components/ui/Avatar";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -93,16 +93,16 @@ export function ChatWindow({
           // No conversations yet → welcome screen.
           <>
             <h2 className="mt-4 text-xl font-semibold text-gray-900 dark:text-zinc-100">
-              Welcome to ChatFlow
+              No conversations yet
             </h2>
             <p className="mt-1 text-sm text-gray-400 dark:text-zinc-500">
-              Start a conversation to get going.
+              Start chatting with your team.
             </p>
             <button
               onClick={onNewChat}
-              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
+              className="mt-5 inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
             >
-              <Plus className="h-4 w-4" /> New Message
+              <Plus className="h-4 w-4" /> New Conversation
             </button>
             <p className="mt-4 flex items-center gap-1.5 text-xs text-gray-400 dark:text-zinc-500">
               <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
@@ -154,6 +154,8 @@ export function ChatWindow({
               ? "Group chat"
               : online
               ? "Active now"
+              : room.lastSeen
+              ? `Last seen ${timeAgo(room.lastSeen)}`
               : "Offline"}
           </p>
         </div>
@@ -197,6 +199,7 @@ export function ChatWindow({
               showAvatar={showAvatar}
               isGroup={room.type === "group"}
               otherReadCount={otherReadCount}
+              delivered={room.type === "group" ? true : !!online}
             />
           );
         })}

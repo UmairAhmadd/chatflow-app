@@ -18,7 +18,24 @@ router.get("/conversations", protect, async (req, res) => {
       .populate("lastMessage")
       .sort({ updatedAt: -1 });
 
-    res.json({ dms, groups });
+    // Real per-room unread count: messages not sent by me and not yet read by me.
+    const roomIds = [...dms.map((d) => d._id), ...groups.map((g) => g._id)];
+    const agg = await Message.aggregate([
+      {
+        $match: {
+          roomId: { $in: roomIds },
+          sender: { $ne: req.user._id },
+          readBy: { $ne: req.user._id },
+        },
+      },
+      { $group: { _id: "$roomId", count: { $sum: 1 } } },
+    ]);
+    const unread = {};
+    agg.forEach((a) => {
+      unread[String(a._id)] = a.count;
+    });
+
+    res.json({ dms, groups, unread });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

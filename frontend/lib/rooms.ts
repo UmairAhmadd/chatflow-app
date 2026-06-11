@@ -4,8 +4,13 @@ import type { ChatRoom, Conversation, Group, User } from "./types";
 export function buildRooms(
   dms: Conversation[],
   groups: Group[],
-  currentUserId: string
+  currentUserId: string,
+  unread?: Record<string, number>
 ): ChatRoom[] {
+  // Prefer the backend's real unread count; fall back to a last-message guess.
+  const unreadFor = (id: string, lastMessage: any) =>
+    unread?.[id] ?? countUnread(lastMessage, currentUserId);
+
   const dmRooms: ChatRoom[] = dms.map((c) => {
     const other =
       c.participants.find((p) => p._id !== currentUserId) || c.participants[0];
@@ -16,10 +21,11 @@ export function buildRooms(
       avatar: other?.avatar,
       otherUserId: other?._id,
       otherEmail: other?.email,
-      // createdAt is on the populated user doc even though it's not in the type.
+      // createdAt / lastSeen are on the populated user doc (not in the TS type).
       joinedAt: (other as any)?.createdAt,
+      lastSeen: (other as any)?.lastSeen,
       lastMessage: c.lastMessage,
-      unread: countUnread(c.lastMessage, currentUserId),
+      unread: unreadFor(c._id, c.lastMessage),
     };
   });
 
@@ -29,7 +35,7 @@ export function buildRooms(
     name: g.name,
     avatar: g.avatar,
     lastMessage: g.lastMessage,
-    unread: countUnread(g.lastMessage, currentUserId),
+    unread: unreadFor(g._id, g.lastMessage),
   }));
 
   return [...dmRooms, ...groupRooms].sort((a, b) => {
