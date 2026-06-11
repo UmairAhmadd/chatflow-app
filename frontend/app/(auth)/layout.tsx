@@ -13,14 +13,14 @@ export default function AuthLayout({
       {/* Left: form — wider than robot on mobile (flex-[2]), 50/50 on desktop.
           Scale the whole form down on mobile so it stays compact beside the
           robot; full size at lg. */}
-      <div className="flex flex-[2] flex-col items-center justify-center px-3 py-6 lg:flex-1 lg:px-6 lg:py-12">
+      <div className="flex flex-[0_0_55%] flex-col items-center justify-center px-3 py-6 lg:flex-1 lg:px-6 lg:py-12">
         <div className="w-full max-w-[380px] scale-[0.85] lg:scale-100">
           {children}
         </div>
       </div>
 
       {/* Right: robot — smaller heading + shorter robot on mobile */}
-      <div className="flex flex-1 flex-col items-center overflow-hidden">
+      <div className="flex flex-[0_0_45%] flex-col items-center overflow-hidden lg:flex-1">
         {/* Heading */}
         <div className="px-4 pt-6 text-center lg:px-10 lg:pt-10">
           <h2 className="mb-1 text-base font-semibold text-white lg:mb-2 lg:text-2xl">
