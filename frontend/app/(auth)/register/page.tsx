@@ -34,7 +34,8 @@ export default function RegisterPage() {
         redirect: false,
       });
       if (res?.error) throw new Error();
-      router.push("/chat");
+      // New users set up (or join) a workspace before entering the app.
+      router.push("/workspace/create");
     } catch (err: any) {
       setError(
         err?.response?.data?.message || "Could not create account. Try again."

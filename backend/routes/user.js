@@ -7,9 +7,13 @@ const router = express.Router();
 // GET /api/users?search=  — list/search users (for starting DMs, adding members)
 router.get("/", protect, async (req, res) => {
   try {
+    // Only surface users from the caller's own workspace.
+    if (!req.user.workspace) return res.json([]);
+
     const { search = "" } = req.query;
     const filter = {
       _id: { $ne: req.user._id },
+      workspace: req.user.workspace,
       ...(search && {
         $or: [
           { name: { $regex: search, $options: "i" } },

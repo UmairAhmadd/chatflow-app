@@ -19,6 +19,7 @@ router.post("/", protect, async (req, res) => {
       avatar: avatar || "",
       admin: req.user._id,
       members: uniqueMembers,
+      workspace: req.user.workspace,
     });
     const populated = await group.populate("members", "-password");
     res.status(201).json(populated);

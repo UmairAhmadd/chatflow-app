@@ -5,6 +5,11 @@ const conversationSchema = new mongoose.Schema(
     participants: [
       { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     ],
+    workspace: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Workspace",
+      index: true,
+    },
     lastMessage: { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
   },
   { timestamps: true }

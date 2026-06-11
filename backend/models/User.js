@@ -17,6 +17,12 @@ const userSchema = new mongoose.Schema(
     bio: { type: String, default: "", maxlength: 200 },
     isOnline: { type: Boolean, default: false },
     lastSeen: { type: Date, default: Date.now },
+    // The workspace this user belongs to (set during onboarding).
+    workspace: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Workspace",
+      default: null,
+    },
   },
   { timestamps: true }
 );

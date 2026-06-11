@@ -12,6 +12,7 @@ const publicUser = (u) => ({
   bio: u.bio,
   isOnline: u.isOnline,
   lastSeen: u.lastSeen,
+  workspace: u.workspace || null,
 });
 
 // POST /api/auth/register

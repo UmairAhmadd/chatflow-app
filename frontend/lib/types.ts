@@ -6,6 +6,7 @@ export interface User {
   bio?: string;
   isOnline?: boolean;
   lastSeen?: string;
+  workspace?: string | null;
 }
 
 export interface Message {

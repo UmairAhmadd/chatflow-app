@@ -9,12 +9,22 @@ const router = express.Router();
 // GET /api/chat/conversations — all DMs + groups for the sidebar list
 router.get("/conversations", protect, async (req, res) => {
   try {
-    const dms = await Conversation.find({ participants: req.user._id })
+    // Users without a workspace have no conversations to show.
+    if (!req.user.workspace)
+      return res.json({ dms: [], groups: [], unread: {} });
+
+    const dms = await Conversation.find({
+      participants: req.user._id,
+      workspace: req.user.workspace,
+    })
       .populate("participants", "-password")
       .populate("lastMessage")
       .sort({ updatedAt: -1 });
 
-    const groups = await Group.find({ members: req.user._id })
+    const groups = await Group.find({
+      members: req.user._id,
+      workspace: req.user.workspace,
+    })
       .populate("lastMessage")
       .sort({ updatedAt: -1 });
 
@@ -54,6 +64,7 @@ router.post("/dm", protect, async (req, res) => {
     if (!convo) {
       convo = await Conversation.create({
         participants: [req.user._id, userId],
+        workspace: req.user.workspace,
       });
       convo = await convo.populate("participants", "-password");
     }

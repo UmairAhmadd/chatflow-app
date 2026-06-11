@@ -4,9 +4,9 @@ import dynamic from "next/dynamic";
 
 const SCENE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
 
-// Glassmorphism floating cards around the robot (desktop only).
+// Glassmorphism floating cards around the robot. Smaller on mobile, full on lg.
 const cardClass =
-  "pointer-events-none absolute z-10 hidden animate-float whitespace-nowrap rounded-xl border border-white/15 bg-white/[0.08] px-[14px] py-2 text-xs text-white backdrop-blur-[10px] lg:block";
+  "pointer-events-none absolute z-10 block animate-float whitespace-nowrap rounded-lg border border-white/15 bg-white/[0.08] px-2 py-1 text-[10px] text-white backdrop-blur-[10px] lg:rounded-xl lg:px-[14px] lg:py-2 lg:text-xs";
 
 // Lazy-load the heavy Spline 3D scene on the client only (no SSR). The dynamic
 // `loading` fallback shows a dark placeholder while the bundle downloads — this
@@ -30,19 +30,18 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    // Side-by-side at all widths: form left, robot right. Both flex-1.
-    <div className="flex min-h-screen bg-[linear-gradient(180deg,#0f172a,#020617)]">
-      {/* Left: form — wider than robot on mobile (flex-[2]), 50/50 on desktop.
-          Scale the whole form down on mobile so it stays compact beside the
-          robot; full size at lg. */}
-      <div className="flex flex-[0_0_48%] flex-col items-center justify-start px-3 py-6 lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
+    // Side-by-side at all widths (no stacking, no horizontal scroll).
+    // Mobile: form 45% / robot 55%. Desktop: 50/50 via lg:flex-1.
+    <div className="flex min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#0f172a,#020617)]">
+      {/* Left: compact login card on mobile (45% wide, scaled down). */}
+      <div className="flex w-[45%] shrink-0 max-w-full flex-col items-center justify-start px-2 py-4 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
         <div className="w-full max-w-[380px] scale-[0.85] lg:scale-100">
           {children}
         </div>
       </div>
 
-      {/* Right: robot — smaller heading + shorter robot on mobile */}
-      <div className="flex flex-[0_0_52%] flex-col items-center overflow-hidden pt-6 lg:flex-1 lg:pt-0">
+      {/* Right: robot/hero — 55% wide on mobile */}
+      <div className="flex w-[55%] shrink-0 max-w-full flex-col items-center overflow-hidden pt-4 lg:w-auto lg:flex-1 lg:pt-0">
         {/* Heading */}
         <div className="px-4 pt-0 text-center lg:px-10 lg:pt-10">
           <h2 className="mb-1 text-base font-semibold text-white lg:mb-2 lg:text-2xl">
@@ -55,24 +54,28 @@ export default function AuthLayout({
 
         {/* Robot: shorter on mobile, fits its container (overflow hidden).
             Scale the scene down on mobile so it isn't cut off; full on desktop. */}
-        <div className="relative mt-0 h-[300px] w-full overflow-hidden lg:mt-4 lg:h-[480px]">
+        <div className="relative mx-auto mt-0 h-[300px] w-[200px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
           <SplineScene
             scene={SCENE_URL}
             className="h-full w-full scale-[0.95] lg:scale-100"
           />
 
-          {/* Floating activity cards around the robot — desktop only */}
+          {/* Floating activity cards — icon + short text on mobile, full on lg */}
           <div className={cardClass} style={{ top: "12%", left: "6%", animationDelay: "0s" }}>
-            💬 New Message
+            💬<span className="hidden lg:inline"> New Message</span>
+            <span className="lg:hidden"> New</span>
           </div>
           <div className={cardClass} style={{ top: "12%", right: "6%", animationDelay: "0.8s" }}>
-            👥 5 Members Online
+            👥<span className="hidden lg:inline"> 5 Members Online</span>
+            <span className="lg:hidden"> 5</span>
           </div>
           <div className={cardClass} style={{ bottom: "12%", left: "6%", animationDelay: "1.6s" }}>
-            📎 File Shared
+            📎<span className="hidden lg:inline"> File Shared</span>
+            <span className="lg:hidden"> File</span>
           </div>
           <div className={cardClass} style={{ bottom: "12%", right: "6%", animationDelay: "2.4s" }}>
-            🔔 3 Notifications
+            🔔<span className="hidden lg:inline"> 3 Notifications</span>
+            <span className="lg:hidden"> 3</span>
           </div>
         </div>
       </div>

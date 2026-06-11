@@ -28,8 +28,15 @@ export default function ChatLayout({
     const token = (session as any)?.backendToken;
     if (!token) return;
     localStorage.setItem("chatflow_token", token);
-    api.get("/auth/me").then(({ data }) => setCurrentUser(data.user));
-  }, [session, setCurrentUser]);
+    api.get("/auth/me").then(({ data }) => {
+      // Users must belong to a workspace before entering the chat.
+      if (!data.user.workspace) {
+        router.replace("/workspace/create");
+        return;
+      }
+      setCurrentUser(data.user);
+    });
+  }, [session, setCurrentUser, router]);
 
   if (status === "loading") {
     return (

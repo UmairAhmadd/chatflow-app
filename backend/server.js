@@ -12,6 +12,7 @@ import userRoutes from "./routes/user.js";
 import chatRoutes from "./routes/chat.js";
 import groupRoutes from "./routes/group.js";
 import mediaRoutes from "./routes/media.js";
+import workspaceRoutes from "./routes/workspace.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -27,6 +28,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/groups", groupRoutes);
 app.use("/api/media", mediaRoutes);
+app.use("/api/workspace", workspaceRoutes);
 
 const io = new Server(server, {
   cors: { origin: CLIENT_URL, credentials: true },
