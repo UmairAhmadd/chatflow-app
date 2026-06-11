@@ -96,7 +96,8 @@ export function NewChatModal({
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-200"
+              aria-label="Close"
+              className="-mr-2 flex h-10 w-10 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 dark:text-zinc-500 dark:hover:bg-surfaceHover dark:hover:text-zinc-200"
             >
               <X className="h-5 w-5" />
             </button>

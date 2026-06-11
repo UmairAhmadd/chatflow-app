@@ -8,16 +8,17 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-[#080808]">
-      {/* Left: form — full width on mobile, half on desktop */}
-      <div className="flex w-full flex-col items-center justify-center px-6 py-12 lg:w-1/2 lg:px-6">
+    // Mobile: single column (robot on top, form below). Desktop: 2 columns.
+    <div className="flex min-h-screen flex-col bg-[#080808] lg:flex-row">
+      {/* Form — below the robot on mobile (order-2), left column on desktop */}
+      <div className="order-2 flex w-full flex-col items-center justify-center px-6 py-12 lg:order-1 lg:w-1/2 lg:px-6">
         <div className="w-full max-w-[380px]">{children}</div>
       </div>
 
-      {/* Right: Spline robot — desktop only (hidden on mobile to avoid overlap) */}
-      <div className="hidden w-1/2 flex-col items-center overflow-hidden lg:flex">
-        {/* Heading top */}
-        <div className="px-10 pt-10 text-center">
+      {/* Spline robot — top on mobile (order-1), right column on desktop */}
+      <div className="order-1 flex w-full flex-col items-center overflow-hidden lg:order-2 lg:w-1/2">
+        {/* Heading — desktop only */}
+        <div className="hidden px-10 pt-10 text-center lg:block">
           <h2 className="mb-2 text-2xl font-semibold text-white">
             Chat that keeps your team in flow.
           </h2>
@@ -26,8 +27,8 @@ export default function AuthLayout({
           </p>
         </div>
 
-        {/* Robot */}
-        <div className="relative mt-4 h-[480px] w-full">
+        {/* Robot: fixed 300px on mobile, 480px on desktop */}
+        <div className="relative h-[300px] w-full lg:mt-4 lg:h-[480px]">
           <SplineScene scene={SCENE_URL} className="h-full w-full" />
           <div className="pointer-events-none absolute inset-0 bg-[#080808]/30" />
         </div>

@@ -14,6 +14,17 @@ body {
   height: 100%;
 }
 
+/* On phones, iOS Safari auto-zooms when focusing a control whose font-size is
+   below 16px (our inputs use text-sm = 14px). Force 16px on small screens to
+   stop the zoom; desktop keeps the denser text-sm via the utility classes. */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 /* Slim, subtle scrollbars to match the Linear/Vercel aesthetic */
 ::-webkit-scrollbar {
   width: 8px;
