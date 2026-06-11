@@ -15,6 +15,9 @@ export function buildRooms(
       name: other?.name || "Unknown",
       avatar: other?.avatar,
       otherUserId: other?._id,
+      otherEmail: other?.email,
+      // createdAt is on the populated user doc even though it's not in the type.
+      joinedAt: (other as any)?.createdAt,
       lastMessage: c.lastMessage,
       unread: countUnread(c.lastMessage, currentUserId),
     };

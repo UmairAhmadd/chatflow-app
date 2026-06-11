@@ -81,6 +81,12 @@ export function ChatList({
   const rooms = useChatStore((s) => s.rooms);
   const activeRoomId = useChatStore((s) => s.activeRoomId);
   const onlineUserIds = useChatStore((s) => s.onlineUserIds);
+  const currentUser = useChatStore((s) => s.currentUser);
+
+  // Teammates currently online (excluding yourself).
+  const onlineCount =
+    onlineUserIds.size -
+    (currentUser?._id && onlineUserIds.has(currentUser._id) ? 1 : 0);
 
   // Only conversations that have at least one message — hide empty ones.
   const activeRooms = rooms.filter((r) => !!r.lastMessage);
@@ -160,9 +166,24 @@ export function ChatList({
   const ConversationList = () => (
     <div className="space-y-0.5 py-1">
       {filtered.length === 0 ? (
-        <p className="px-3 py-4 text-center text-xs text-gray-400 dark:text-zinc-500">
-          No conversations here.
-        </p>
+        // Empty: subtle skeleton/demo placeholders instead of a bare message.
+        <div className="space-y-1 px-1 py-1">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="flex animate-pulse items-center gap-3 rounded-xl px-2.5 py-2.5"
+            >
+              <div className="h-[46px] w-[46px] shrink-0 rounded-full bg-gray-200 dark:bg-surfaceHover" />
+              <div className="min-w-0 flex-1 space-y-2">
+                <div className="h-3 w-1/2 rounded bg-gray-200 dark:bg-surfaceHover" />
+                <div className="h-2.5 w-3/4 rounded bg-gray-100 dark:bg-border" />
+              </div>
+            </div>
+          ))}
+          <p className="px-3 pt-2 text-center text-xs text-gray-400 dark:text-zinc-500">
+            No conversations yet
+          </p>
+        </div>
       ) : (
         filtered.map((room) => {
           const online =
@@ -224,15 +245,26 @@ export function ChatList({
   return (
     <div
       className={cn(
-        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-surface lg:w-[340px]",
+        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-surface lg:w-[22%] lg:min-w-[260px]",
         className
       )}
     >
-      {/* Header */}
-      <div className="flex shrink-0 items-center justify-between px-4 pb-3 pt-4">
-        <h1 className="text-lg font-semibold text-gray-900 dark:text-zinc-100">
-          Messages
-        </h1>
+      {/* Header — ChatFlow branding + live online count */}
+      <div className="flex shrink-0 items-center justify-between gap-2 px-4 pb-3 pt-4">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500">
+            <MessagesSquare className="h-5 w-5 text-white" />
+          </div>
+          <div className="min-w-0">
+            <h1 className="truncate text-base font-semibold leading-tight text-gray-900 dark:text-zinc-100">
+              ChatFlow
+            </h1>
+            <p className="flex items-center gap-1 text-[11px] text-gray-400 dark:text-zinc-500">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              {onlineCount} online
+            </p>
+          </div>
+        </div>
         <div className="relative">
           <button
             onClick={() => setMenuOpen((o) => !o)}

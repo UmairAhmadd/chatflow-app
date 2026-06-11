@@ -2,7 +2,16 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Bell, Mail, FileText, ShieldOff } from "lucide-react";
+import {
+  Bell,
+  Mail,
+  FileText,
+  ShieldOff,
+  Calendar,
+  Link2,
+  Paperclip,
+  CircleDot,
+} from "lucide-react";
 import { cn, formatTime } from "@/lib/utils";
 import { useChatStore } from "@/lib/store";
 import { Avatar } from "@/components/ui/Avatar";
@@ -32,6 +41,35 @@ function Toggle({
         )}
       />
     </button>
+  );
+}
+
+function Detail({
+  icon: Icon,
+  label,
+  value,
+  valueClass,
+}: {
+  icon: any;
+  label: string;
+  value: string;
+  valueClass?: string;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-2 text-sm">
+      <span className="flex shrink-0 items-center gap-2 text-gray-500 dark:text-zinc-400">
+        <Icon className="h-4 w-4 text-gray-400 dark:text-zinc-500" />
+        {label}
+      </span>
+      <span
+        className={cn(
+          "min-w-0 max-w-[55%] truncate text-right font-medium text-gray-800 dark:text-zinc-200",
+          valueClass
+        )}
+      >
+        {value}
+      </span>
+    </div>
   );
 }
 
@@ -74,6 +112,22 @@ export function InfoPanel({
     .filter((m) => m.type === "image" && m.fileUrl)
     .slice(-6)
     .reverse();
+
+  // Counts derived from the loaded messages.
+  const sharedFilesCount = (messages || []).filter(
+    (m) => (m.type === "file" || m.type === "image") && m.fileUrl
+  ).length;
+  const urlRe = /(https?:\/\/[^\s]+)/i;
+  const sharedLinksCount = (messages || []).filter(
+    (m) => m.type === "text" && urlRe.test(m.content || "")
+  ).length;
+  const joined = room.joinedAt
+    ? new Date(room.joinedAt).toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : null;
 
   return (
     <aside
@@ -121,6 +175,41 @@ export function InfoPanel({
         <p className="mt-0.5 text-sm font-medium text-gray-700 dark:text-zinc-300">
           {lastContact ? formatTime(lastContact) : "—"}
         </p>
+      </div>
+
+      {/* Details */}
+      <div className="mt-6 px-6">
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+          Details
+        </h3>
+        <div className="space-y-2.5">
+          {room.type === "dm" && room.otherEmail && (
+            <Detail icon={Mail} label="Email" value={room.otherEmail} />
+          )}
+          <Detail
+            icon={CircleDot}
+            label="Status"
+            value={
+              room.type === "group" ? "Group" : online ? "Online" : "Offline"
+            }
+            valueClass={
+              online ? "text-green-600 dark:text-green-400" : undefined
+            }
+          />
+          {room.type === "dm" && joined && (
+            <Detail icon={Calendar} label="Joined" value={joined} />
+          )}
+          <Detail
+            icon={Paperclip}
+            label="Shared files"
+            value={String(sharedFilesCount)}
+          />
+          <Detail
+            icon={Link2}
+            label="Shared links"
+            value={String(sharedLinksCount)}
+          />
+        </div>
       </div>
 
       {/* Notifications / settings */}

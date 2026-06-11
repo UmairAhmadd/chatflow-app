@@ -5,8 +5,15 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { MessagesSquare, Loader2 } from "lucide-react";
+import { MessagesSquare, Loader2, Check } from "lucide-react";
 import api from "@/lib/api";
+
+const FEATURES = [
+  "Real-time Messaging",
+  "Team Channels",
+  "File Sharing",
+  "Online Presence",
+];
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -45,18 +52,33 @@ export default function RegisterPage() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
+      className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_25px_50px_rgba(0,0,0,0.5)] backdrop-blur-[20px] sm:p-8"
     >
-      <div className="mb-8 flex items-center gap-2">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
-          <MessagesSquare className="h-5 w-5 text-white" />
+      {/* Branding */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
+            <MessagesSquare className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-lg font-semibold text-white">ChatFlow</span>
         </div>
-        <span className="text-lg font-semibold text-white">ChatFlow</span>
+        <p className="mt-2 text-sm text-muted">Built for modern teams</p>
       </div>
+
+      {/* Social proof */}
+      <ul className="mb-6 grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-zinc-400">
+        {FEATURES.map((f) => (
+          <li key={f} className="flex items-center gap-1.5">
+            <Check className="h-3.5 w-3.5 shrink-0 text-accent" />
+            {f}
+          </li>
+        ))}
+      </ul>
 
       <h1 className="text-2xl font-semibold text-white">Create your account</h1>
       <p className="mt-1 text-sm text-muted">Start chatting with your team</p>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label className="mb-1.5 block text-sm text-zinc-400">Name</label>
           <input
@@ -94,8 +116,13 @@ export default function RegisterPage() {
         {error && <p className="text-sm text-red-400">{error}</p>}
 
         <button type="submit" disabled={loading} className="btn-primary w-full">
-          {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          Create account
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Creating account...
+            </>
+          ) : (
+            "Create account"
+          )}
         </button>
       </form>
 
@@ -104,6 +131,18 @@ export default function RegisterPage() {
         <Link href="/login" className="text-accent hover:underline">
           Sign in
         </Link>
+      </p>
+
+      {/* Footer */}
+      <p className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-muted">
+        © 2026 ChatFlow ·{" "}
+        <a href="#" className="hover:text-zinc-300">
+          Privacy Policy
+        </a>{" "}
+        ·{" "}
+        <a href="#" className="hover:text-zinc-300">
+          Terms
+        </a>
       </p>
     </motion.div>
   );

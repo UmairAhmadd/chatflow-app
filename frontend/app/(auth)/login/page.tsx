@@ -5,7 +5,14 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { MessagesSquare, Loader2 } from "lucide-react";
+import { MessagesSquare, Loader2, Check } from "lucide-react";
+
+const FEATURES = [
+  "Real-time Messaging",
+  "Team Channels",
+  "File Sharing",
+  "Online Presence",
+];
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,18 +43,33 @@ export default function LoginPage() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
+      className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_25px_50px_rgba(0,0,0,0.5)] backdrop-blur-[20px] sm:p-8"
     >
-      <div className="mb-8 flex items-center gap-2">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
-          <MessagesSquare className="h-5 w-5 text-white" />
+      {/* Branding */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
+            <MessagesSquare className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-lg font-semibold text-white">ChatFlow</span>
         </div>
-        <span className="text-lg font-semibold text-white">ChatFlow</span>
+        <p className="mt-2 text-sm text-muted">Built for modern teams</p>
       </div>
+
+      {/* Social proof */}
+      <ul className="mb-6 grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-zinc-400">
+        {FEATURES.map((f) => (
+          <li key={f} className="flex items-center gap-1.5">
+            <Check className="h-3.5 w-3.5 shrink-0 text-accent" />
+            {f}
+          </li>
+        ))}
+      </ul>
 
       <h1 className="text-2xl font-semibold text-white">Welcome back</h1>
       <p className="mt-1 text-sm text-muted">Sign in to your account</p>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label className="mb-1.5 block text-sm text-zinc-400">Email</label>
           <input
@@ -74,20 +96,25 @@ export default function LoginPage() {
         {error && <p className="text-sm text-red-400">{error}</p>}
 
         <button type="submit" disabled={loading} className="btn-primary w-full">
-          {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          Sign in
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
+            </>
+          ) : (
+            "Sign in"
+          )}
         </button>
       </form>
 
       <div className="my-6 flex items-center gap-3 text-xs text-muted">
-        <div className="h-px flex-1 bg-border" />
+        <div className="h-px flex-1 bg-white/10" />
         OR
-        <div className="h-px flex-1 bg-border" />
+        <div className="h-px flex-1 bg-white/10" />
       </div>
 
       <button
         onClick={() => signIn("google", { callbackUrl: "/chat" })}
-        className="btn-ghost w-full"
+        className="btn-ghost w-full border-white/10 hover:border-white/20 hover:bg-white/10"
       >
         <GoogleIcon /> Continue with Google
       </button>
@@ -97,6 +124,18 @@ export default function LoginPage() {
         <Link href="/register" className="text-accent hover:underline">
           Sign up
         </Link>
+      </p>
+
+      {/* Footer */}
+      <p className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-muted">
+        © 2026 ChatFlow ·{" "}
+        <a href="#" className="hover:text-zinc-300">
+          Privacy Policy
+        </a>{" "}
+        ·{" "}
+        <a href="#" className="hover:text-zinc-300">
+          Terms
+        </a>
       </p>
     </motion.div>
   );

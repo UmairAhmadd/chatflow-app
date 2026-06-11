@@ -27,7 +27,7 @@ export default function AuthLayout({
 }) {
   return (
     // Side-by-side at all widths: form left, robot right. Both flex-1.
-    <div className="flex min-h-screen bg-[#080808]">
+    <div className="flex min-h-screen bg-[linear-gradient(180deg,#0f172a,#020617)]">
       {/* Left: form — wider than robot on mobile (flex-[2]), 50/50 on desktop.
           Scale the whole form down on mobile so it stays compact beside the
           robot; full size at lg. */}

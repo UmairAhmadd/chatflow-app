@@ -77,6 +77,7 @@ export default function ChatPage() {
         room={activeRoom}
         onBack={() => setActiveRoom(null)}
         onToggleInfo={() => setShowInfo((s) => !s)}
+        onNewChat={() => setModal("dm")}
         className={activeRoom ? "flex" : "hidden lg:flex"}
       />
 

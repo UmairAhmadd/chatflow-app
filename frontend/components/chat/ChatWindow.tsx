@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { MessagesSquare, ArrowLeft, PanelRight } from "lucide-react";
+import { MessagesSquare, ArrowLeft, PanelRight, Plus } from "lucide-react";
 import api from "@/lib/api";
 import { currentSocket } from "@/lib/socket";
 import { cn } from "@/lib/utils";
@@ -16,19 +16,27 @@ export function ChatWindow({
   room,
   onBack,
   onToggleInfo,
+  onNewChat,
   className,
 }: {
   room: ChatRoom | null;
   onBack?: () => void;
   onToggleInfo?: () => void;
+  onNewChat?: () => void;
   className?: string;
 }) {
   const currentUser = useChatStore((s) => s.currentUser);
   const messages = useChatStore((s) => (room ? s.messages[room.id] : undefined));
   const setMessages = useChatStore((s) => s.setMessages);
   const onlineUserIds = useChatStore((s) => s.onlineUserIds);
+  const rooms = useChatStore((s) => s.rooms);
   const typingName = useChatStore((s) => (room ? s.typing[room.id] : null));
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const onlineCount =
+    onlineUserIds.size -
+    (currentUser?._id && onlineUserIds.has(currentUser._id) ? 1 : 0);
+  const hasConversations = rooms.some((r) => !!r.lastMessage);
 
   // Load history + join room + mark read whenever the active room changes.
   useEffect(() => {
@@ -63,7 +71,7 @@ export function ChatWindow({
     return (
       <div
         className={cn(
-          "relative flex-1 flex-col items-center justify-center bg-gray-50 text-center dark:bg-background",
+          "relative flex-1 flex-col items-center justify-center bg-gray-50 px-6 text-center dark:bg-background",
           className
         )}
       >
@@ -71,12 +79,37 @@ export function ChatWindow({
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-500/10">
           <MessagesSquare className="h-8 w-8 text-indigo-500" />
         </div>
-        <h2 className="mt-4 text-lg font-medium text-gray-700 dark:text-zinc-300">
-          Select a conversation
-        </h2>
-        <p className="mt-1 text-sm text-gray-400 dark:text-zinc-500">
-          Choose a chat from the list to start messaging.
-        </p>
+
+        {hasConversations ? (
+          <>
+            <h2 className="mt-4 text-lg font-medium text-gray-700 dark:text-zinc-300">
+              Select a conversation
+            </h2>
+            <p className="mt-1 text-sm text-gray-400 dark:text-zinc-500">
+              Choose a chat from the list to start messaging.
+            </p>
+          </>
+        ) : (
+          // No conversations yet → welcome screen.
+          <>
+            <h2 className="mt-4 text-xl font-semibold text-gray-900 dark:text-zinc-100">
+              Welcome to ChatFlow
+            </h2>
+            <p className="mt-1 text-sm text-gray-400 dark:text-zinc-500">
+              Start a conversation to get going.
+            </p>
+            <button
+              onClick={onNewChat}
+              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
+            >
+              <Plus className="h-4 w-4" /> New Message
+            </button>
+            <p className="mt-4 flex items-center gap-1.5 text-xs text-gray-400 dark:text-zinc-500">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              {onlineCount} {onlineCount === 1 ? "person" : "people"} online
+            </p>
+          </>
+        )}
       </div>
     );
   }

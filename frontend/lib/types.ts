@@ -46,6 +46,8 @@ export interface ChatRoom {
   avatar?: string;
   isOnline?: boolean;
   otherUserId?: string;
+  otherEmail?: string; // DM only — the other participant's email
+  joinedAt?: string; // DM only — the other participant's account creation date
   lastMessage?: Message;
   unread: number;
 }
