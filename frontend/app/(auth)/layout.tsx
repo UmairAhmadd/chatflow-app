@@ -43,7 +43,7 @@ export default function AuthLayout({
           <h2 className="mb-1 text-lg font-semibold text-white lg:mb-2 lg:text-2xl">
             Chat that keeps your team in flow.
           </h2>
-          <p className="text-xs text-[#555] lg:text-sm">
+          <p className="text-xs text-gray-300 lg:text-sm lg:text-[#555]">
             Real-time messaging, groups, and presence — built for remote teams.
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function AuthLayout({
       </div>
 
       {/* Login card — below on mobile (order-2), left column on desktop (order-1) */}
-      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-[30px] lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
+      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-[12px] lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
         <div className="w-full max-w-[360px] lg:max-w-[380px]">{children}</div>
       </div>
     </div>
