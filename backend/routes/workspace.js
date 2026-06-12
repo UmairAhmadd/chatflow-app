@@ -6,6 +6,11 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+// GET /api/workspace/ping — unprotected health check to verify the mount
+router.get("/ping", (_req, res) => {
+  res.json({ ok: true, route: "workspace", time: new Date().toISOString() });
+});
+
 const slugify = (name) =>
   name
     .toLowerCase()
