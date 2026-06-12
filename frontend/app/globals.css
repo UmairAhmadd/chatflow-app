@@ -39,6 +39,17 @@ body {
   }
 }
 
+/* Auth inputs are intentionally compact on mobile (overrides the 16px rule
+   above; note this re-enables iOS zoom-on-focus for these fields). */
+@media (max-width: 1023px) {
+  .auth-input {
+    height: 36px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    font-size: 13px !important;
+  }
+}
+
 /* Slim, subtle scrollbars to match the Linear/Vercel aesthetic */
 ::-webkit-scrollbar {
   width: 8px;

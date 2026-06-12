@@ -6,7 +6,7 @@ const SCENE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
 
 // Glassmorphism floating cards around the robot. Smaller on mobile, full on lg.
 const cardClass =
-  "pointer-events-none absolute z-10 block animate-float whitespace-nowrap rounded-lg border border-white/15 bg-white/[0.08] px-2 py-1 text-[10px] text-white backdrop-blur-[10px] lg:rounded-xl lg:px-[14px] lg:py-2 lg:text-xs";
+  "pointer-events-none absolute z-10 block animate-float whitespace-nowrap rounded-md border border-white/15 bg-white/[0.08] px-1.5 py-0.5 text-[9px] text-white backdrop-blur-[10px] lg:rounded-xl lg:px-[14px] lg:py-2 lg:text-xs";
 
 // Lazy-load the heavy Spline 3D scene on the client only (no SSR). The dynamic
 // `loading` fallback shows a dark placeholder while the bundle downloads — this
@@ -34,10 +34,8 @@ export default function AuthLayout({
     // Mobile: form 45% / robot 55%. Desktop: 50/50 via lg:flex-1.
     <div className="flex min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#0f172a,#020617)]">
       {/* Left: compact login card on mobile (45% wide, scaled down). */}
-      <div className="flex w-[45%] shrink-0 max-w-full flex-col items-center justify-start px-2 py-4 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
-        <div className="w-full max-w-[380px] scale-[0.85] lg:scale-100">
-          {children}
-        </div>
+      <div className="flex w-[45%] shrink-0 max-w-full flex-col items-center justify-start px-1.5 py-3 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
+        <div className="w-full max-w-[380px]">{children}</div>
       </div>
 
       {/* Right: robot/hero — 55% wide on mobile */}
@@ -54,28 +52,24 @@ export default function AuthLayout({
 
         {/* Robot: shorter on mobile, fits its container (overflow hidden).
             Scale the scene down on mobile so it isn't cut off; full on desktop. */}
-        <div className="relative mx-auto mt-0 h-[300px] w-[200px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
+        <div className="relative mx-auto mt-0 h-[220px] w-[140px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
           <SplineScene
             scene={SCENE_URL}
-            className="h-full w-full scale-[0.95] lg:scale-100"
+            className="h-full w-full scale-[0.5] lg:scale-100"
           />
 
-          {/* Floating activity cards — icon + short text on mobile, full on lg */}
-          <div className={cardClass} style={{ top: "12%", left: "6%", animationDelay: "0s" }}>
+          {/* Floating activity cards — icon-only on mobile, icon + text on lg */}
+          <div className={cardClass} style={{ top: "12%", left: "4%", animationDelay: "0s" }}>
             💬<span className="hidden lg:inline"> New Message</span>
-            <span className="lg:hidden"> New</span>
           </div>
-          <div className={cardClass} style={{ top: "12%", right: "6%", animationDelay: "0.8s" }}>
+          <div className={cardClass} style={{ top: "12%", right: "4%", animationDelay: "0.8s" }}>
             👥<span className="hidden lg:inline"> 5 Members Online</span>
-            <span className="lg:hidden"> 5</span>
           </div>
-          <div className={cardClass} style={{ bottom: "12%", left: "6%", animationDelay: "1.6s" }}>
+          <div className={cardClass} style={{ bottom: "12%", left: "4%", animationDelay: "1.6s" }}>
             📎<span className="hidden lg:inline"> File Shared</span>
-            <span className="lg:hidden"> File</span>
           </div>
-          <div className={cardClass} style={{ bottom: "12%", right: "6%", animationDelay: "2.4s" }}>
+          <div className={cardClass} style={{ bottom: "12%", right: "4%", animationDelay: "2.4s" }}>
             🔔<span className="hidden lg:inline"> 3 Notifications</span>
-            <span className="lg:hidden"> 3</span>
           </div>
         </div>
       </div>

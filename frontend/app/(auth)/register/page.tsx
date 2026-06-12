@@ -53,70 +53,86 @@ export default function RegisterPage() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_25px_50px_rgba(0,0,0,0.5)] backdrop-blur-[20px] sm:p-8"
+      className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_25px_50px_rgba(0,0,0,0.5)] backdrop-blur-[20px] sm:p-8"
     >
       {/* Branding */}
-      <div className="mb-6">
+      <div className="mb-4 lg:mb-6">
         <div className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent">
             <MessagesSquare className="h-5 w-5 text-white" />
           </div>
           <span className="text-lg font-semibold text-white">ChatFlow</span>
         </div>
-        <p className="mt-2 text-sm text-muted">Built for modern teams</p>
+        <p className="mt-2 text-[11px] text-muted lg:text-sm">
+          Built for modern teams
+        </p>
       </div>
 
       {/* Social proof */}
-      <ul className="mb-6 grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-zinc-400">
+      <ul className="mb-4 grid grid-cols-2 gap-x-3 gap-y-1.5 text-[10px] text-zinc-400 lg:mb-6 lg:gap-x-4 lg:gap-y-2 lg:text-xs">
         {FEATURES.map((f) => (
-          <li key={f} className="flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 shrink-0 text-accent" />
+          <li key={f} className="flex items-center gap-1 whitespace-nowrap lg:gap-1.5">
+            <Check className="h-3 w-3 shrink-0 text-accent lg:h-3.5 lg:w-3.5" />
             {f}
           </li>
         ))}
       </ul>
 
-      <h1 className="text-2xl font-semibold text-white">Create your account</h1>
-      <p className="mt-1 text-sm text-muted">Start chatting with your team</p>
+      <h1 className="text-[20px] font-semibold text-white lg:text-2xl">
+        Create your account
+      </h1>
+      <p className="mt-1 text-xs text-muted lg:text-sm">
+        Start chatting with your team
+      </p>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-4 space-y-3 lg:mt-6 lg:space-y-4">
         <div>
-          <label className="mb-1.5 block text-sm text-zinc-400">Name</label>
+          <label className="mb-1 block text-xs text-zinc-400 lg:mb-1.5 lg:text-sm">
+            Name
+          </label>
           <input
             required
-            className="input"
+            className="input auth-input"
             placeholder="Ada Lovelace"
             value={form.name}
             onChange={update("name")}
           />
         </div>
         <div>
-          <label className="mb-1.5 block text-sm text-zinc-400">Email</label>
+          <label className="mb-1 block text-xs text-zinc-400 lg:mb-1.5 lg:text-sm">
+            Email
+          </label>
           <input
             type="email"
             required
-            className="input"
+            className="input auth-input"
             placeholder="you@company.com"
             value={form.email}
             onChange={update("email")}
           />
         </div>
         <div>
-          <label className="mb-1.5 block text-sm text-zinc-400">Password</label>
+          <label className="mb-1 block text-xs text-zinc-400 lg:mb-1.5 lg:text-sm">
+            Password
+          </label>
           <input
             type="password"
             required
             minLength={6}
-            className="input"
+            className="input auth-input"
             placeholder="At least 6 characters"
             value={form.password}
             onChange={update("password")}
           />
         </div>
 
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-xs text-red-400 lg:text-sm">{error}</p>}
 
-        <button type="submit" disabled={loading} className="btn-primary w-full">
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn-primary h-10 w-full text-[13px] lg:h-auto lg:text-sm"
+        >
           {loading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" /> Creating account...
