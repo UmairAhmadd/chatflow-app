@@ -72,7 +72,7 @@ export function ChatWindow({
     return (
       <div
         className={cn(
-          "relative flex-1 flex-col items-center justify-center bg-gray-50 px-6 text-center dark:bg-background",
+          "relative flex-1 flex-col items-center justify-center bg-gray-50 px-6 text-center dark:bg-[#161622]",
           className
         )}
       >
@@ -121,9 +121,9 @@ export function ChatWindow({
       : undefined;
 
   return (
-    <div className={cn("flex-1 flex-col bg-gray-50 dark:bg-background", className)}>
+    <div className={cn("flex-1 flex-col bg-gray-50 dark:bg-[#161622]", className)}>
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 dark:border-border dark:bg-surface lg:px-5">
+      <div className="flex items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 dark:border-border dark:bg-[#161622] lg:px-5">
         {/* Back button — mobile only, returns to the chat list */}
         <button
           onClick={onBack}

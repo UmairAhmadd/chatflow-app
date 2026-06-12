@@ -51,7 +51,7 @@ export function ConversationsPanel({
   return (
     <div
       className={cn(
-        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-surface lg:w-[300px] lg:shrink-0",
+        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[300px] lg:shrink-0",
         className
       )}
     >

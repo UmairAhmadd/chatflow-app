@@ -50,7 +50,7 @@ export function Sidebar({ className }: { className?: string }) {
     <aside
       className={cn(
         // Mobile: fixed bottom bar. Desktop: 70px vertical column.
-        "fixed inset-x-0 bottom-0 z-30 flex h-16 w-full flex-row items-center justify-around border-t border-gray-200 bg-white px-2 dark:border-border dark:bg-surface",
+        "fixed inset-x-0 bottom-0 z-30 flex h-16 w-full flex-row items-center justify-around border-t border-gray-200 bg-white px-2 dark:border-border dark:bg-[#0B0B0F]",
         "lg:static lg:h-full lg:w-[70px] lg:flex-col lg:justify-start lg:gap-1 lg:border-r lg:border-t-0 lg:px-0 lg:py-4",
         className
       )}

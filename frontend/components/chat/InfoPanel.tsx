@@ -85,22 +85,80 @@ export function InfoPanel({
 }) {
   const onlineUserIds = useChatStore((s) => s.onlineUserIds);
   const messages = useChatStore((s) => (room ? s.messages[room.id] : undefined));
+  const workspace = useChatStore((s) => s.workspace);
+  const rooms = useChatStore((s) => s.rooms);
 
   // Local-only notification preferences (cosmetic toggles).
   const [muted, setMuted] = useState(false);
   const [emailNotifs, setEmailNotifs] = useState(true);
+  const [copiedInvite, setCopiedInvite] = useState(false);
 
   const { toggleFavourite, toggleArchive, changeStatus } = useRoomActions(room);
 
+  const copyInvite = () => {
+    if (!workspace?.inviteCode) return;
+    navigator.clipboard?.writeText(workspace.inviteCode);
+    setCopiedInvite(true);
+    setTimeout(() => setCopiedInvite(false), 1500);
+  };
+
   if (!room) {
+    // Workspace overview when no conversation is selected.
+    const memberCount = workspace?.memberCount ?? 0;
+    const convCount = rooms.filter((r) => !!r.lastMessage).length;
     return (
       <aside
         className={cn(
-          "w-[300px] flex-col items-center justify-center border-l border-gray-200 bg-white text-center text-sm text-gray-400 dark:border-border dark:bg-surface dark:text-zinc-500",
+          "w-[300px] flex-col overflow-y-auto border-l border-gray-200 bg-white px-5 py-6 dark:border-border dark:bg-surface",
           className
         )}
       >
-        No conversation selected
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-zinc-100">
+          {workspace?.name || "Your workspace"}
+        </h2>
+        <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+          Workspace Overview
+        </p>
+
+        <div className="mt-5 space-y-2.5">
+          <div className="flex items-center gap-2 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5 text-sm text-gray-700 dark:border-border dark:bg-surfaceHover dark:text-zinc-300">
+            <span>👥</span>
+            <span className="font-medium">{memberCount}</span>
+            member{memberCount === 1 ? "" : "s"}
+          </div>
+          <div className="flex items-center gap-2 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5 text-sm text-gray-700 dark:border-border dark:bg-surfaceHover dark:text-zinc-300">
+            <span>💬</span>
+            <span className="font-medium">{convCount}</span>
+            conversation{convCount === 1 ? "" : "s"}
+          </div>
+        </div>
+
+        <button
+          onClick={copyInvite}
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
+        >
+          {copiedInvite ? "✓ Invite code copied!" : "📨 Invite Teammates"}
+        </button>
+
+        <div className="mt-7">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+            📌 Quick Tips
+          </h3>
+          <ul className="space-y-2 text-xs text-gray-500 dark:text-zinc-400">
+            <li className="flex gap-2">
+              <span className="text-indigo-500">•</span> Hit the + button to start
+              a new message or group.
+            </li>
+            <li className="flex gap-2">
+              <span className="text-indigo-500">•</span> Share your invite code to
+              add teammates.
+            </li>
+            <li className="flex gap-2">
+              <span className="text-indigo-500">•</span> Use the categories to
+              filter your conversations.
+            </li>
+          </ul>
+        </div>
       </aside>
     );
   }

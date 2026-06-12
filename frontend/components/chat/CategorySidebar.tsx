@@ -88,7 +88,7 @@ export function CategorySidebar({
   return (
     <div
       className={cn(
-        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-surface lg:w-[220px] lg:shrink-0",
+        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[220px] lg:shrink-0",
         className
       )}
     >
@@ -115,24 +115,24 @@ export function CategorySidebar({
 
       {/* Invite code */}
       {workspace?.inviteCode && (
-        <div className="mx-3 mb-3 shrink-0 rounded-lg border border-gray-200 bg-gray-50 p-2.5 dark:border-border dark:bg-surfaceHover">
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+        <div className="mx-3 mb-2 shrink-0 rounded-lg border border-gray-200 bg-gray-50 p-2 dark:border-border dark:bg-surfaceHover">
+          <p className="text-[9px] font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
             Invite code
           </p>
-          <p className="mt-0.5 truncate font-mono text-sm tracking-wider text-gray-900 dark:text-zinc-100">
+          <p className="truncate font-mono text-xs tracking-wider text-gray-900 dark:text-zinc-100">
             {workspace.inviteCode}
           </p>
           <button
             onClick={copyInvite}
-            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md bg-indigo-500 px-2 py-1.5 text-[11px] font-medium text-white transition hover:bg-indigo-600"
+            className="mt-1.5 flex w-full items-center justify-center gap-1 rounded-md bg-indigo-500 px-2 py-1 text-[10px] font-medium text-white transition hover:bg-indigo-600"
           >
             {copied ? (
               <>
-                <Check className="h-3.5 w-3.5" /> Copied!
+                <Check className="h-3 w-3" /> Copied!
               </>
             ) : (
               <>
-                <Copy className="h-3.5 w-3.5" /> Copy Invite Code
+                <Copy className="h-3 w-3" /> Copy Invite Code
               </>
             )}
           </button>
@@ -212,9 +212,18 @@ export function CategorySidebar({
           Contacts
         </span>
         {contacts.length === 0 ? (
-          <span className="text-xs text-gray-400 dark:text-zinc-500">
-            No contacts yet
-          </span>
+          <button
+            onClick={copyInvite}
+            className="flex w-full items-center justify-center gap-1.5 rounded-md bg-indigo-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-indigo-600"
+          >
+            {copied ? (
+              <>
+                <Check className="h-3.5 w-3.5" /> Copied!
+              </>
+            ) : (
+              "+ Invite teammates"
+            )}
+          </button>
         ) : (
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {contacts.map((room) => (
