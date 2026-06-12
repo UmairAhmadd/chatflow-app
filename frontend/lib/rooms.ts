@@ -11,6 +11,21 @@ export function buildRooms(
   const unreadFor = (id: string, lastMessage: any) =>
     unread?.[id] ?? countUnread(lastMessage, currentUserId);
 
+  const flags = (doc: any) => ({
+    favourite: (doc.favouritedBy || []).some(
+      (id: any) => String(id) === currentUserId
+    ),
+    archived: (doc.archivedBy || []).some(
+      (id: any) => String(id) === currentUserId
+    ),
+    status: doc.status || "open",
+    // assignedTo may be populated ({ _id, name }) or a raw id, or null.
+    assignedToId: doc.assignedTo
+      ? String(doc.assignedTo._id || doc.assignedTo)
+      : undefined,
+    assignedToName: doc.assignedTo?.name,
+  });
+
   const dmRooms: ChatRoom[] = dms.map((c) => {
     const other =
       c.participants.find((p) => p._id !== currentUserId) || c.participants[0];
@@ -24,6 +39,7 @@ export function buildRooms(
       // createdAt / lastSeen are on the populated user doc (not in the TS type).
       joinedAt: (other as any)?.createdAt,
       lastSeen: (other as any)?.lastSeen,
+      ...flags(c),
       lastMessage: c.lastMessage,
       unread: unreadFor(c._id, c.lastMessage),
     };
@@ -34,6 +50,7 @@ export function buildRooms(
     type: "group",
     name: g.name,
     avatar: g.avatar,
+    ...flags(g),
     lastMessage: g.lastMessage,
     unread: unreadFor(g._id, g.lastMessage),
   }));

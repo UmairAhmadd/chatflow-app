@@ -69,6 +69,27 @@ router.post("/join", protect, async (req, res) => {
   }
 });
 
+// GET /api/workspace/current — the caller's workspace (name + invite code)
+router.get("/current", protect, async (req, res) => {
+  try {
+    if (!req.user.workspace)
+      return res.status(404).json({ message: "No workspace" });
+    const ws = await Workspace.findById(req.user.workspace).select(
+      "name slug inviteCode members"
+    );
+    if (!ws) return res.status(404).json({ message: "Workspace not found" });
+    res.json({
+      _id: ws._id,
+      name: ws.name,
+      slug: ws.slug,
+      inviteCode: ws.inviteCode,
+      memberCount: ws.members.length,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // GET /api/workspace/members — users in the caller's workspace
 router.get("/members", protect, async (req, res) => {
   try {

@@ -9,6 +9,14 @@ export interface User {
   workspace?: string | null;
 }
 
+export interface Workspace {
+  _id: string;
+  name: string;
+  slug?: string;
+  inviteCode: string;
+  memberCount?: number;
+}
+
 export interface Message {
   _id: string;
   sender: User | string;
@@ -50,6 +58,11 @@ export interface ChatRoom {
   otherEmail?: string; // DM only — the other participant's email
   joinedAt?: string; // DM only — the other participant's account creation date
   lastSeen?: string; // DM only — the other participant's last-seen timestamp
+  favourite?: boolean; // current user has favourited this room
+  archived?: boolean; // current user has archived this room
+  status?: "open" | "assigned" | "closed";
+  assignedToId?: string; // the assignee's user id (per-person assignment)
+  assignedToName?: string;
   lastMessage?: Message;
   unread: number;
 }

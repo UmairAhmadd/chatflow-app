@@ -16,6 +16,7 @@ export default function ChatLayout({
   const { data: session, status } = useSession();
   const router = useRouter();
   const setCurrentUser = useChatStore((s) => s.setCurrentUser);
+  const setWorkspace = useChatStore((s) => s.setWorkspace);
 
   // Establishes socket connection + wires events once authenticated.
   useChatSocket();
@@ -35,8 +36,13 @@ export default function ChatLayout({
         return;
       }
       setCurrentUser(data.user);
+      // Load workspace details (name + invite code) for the sidebar.
+      api
+        .get("/workspace/current")
+        .then(({ data: ws }) => setWorkspace(ws))
+        .catch(() => {});
     });
-  }, [session, setCurrentUser, router]);
+  }, [session, setCurrentUser, setWorkspace, router]);
 
   if (status === "loading") {
     return (

@@ -11,9 +11,12 @@ import {
   Link2,
   Paperclip,
   CircleDot,
+  Star,
+  Archive,
 } from "lucide-react";
 import { cn, formatTime } from "@/lib/utils";
 import { useChatStore } from "@/lib/store";
+import { useRoomActions } from "@/lib/useRoomActions";
 import { Avatar } from "@/components/ui/Avatar";
 import type { ChatRoom } from "@/lib/types";
 
@@ -86,6 +89,8 @@ export function InfoPanel({
   // Local-only notification preferences (cosmetic toggles).
   const [muted, setMuted] = useState(false);
   const [emailNotifs, setEmailNotifs] = useState(true);
+
+  const { toggleFavourite, toggleArchive, changeStatus } = useRoomActions(room);
 
   if (!room) {
     return (
@@ -200,6 +205,11 @@ export function InfoPanel({
             <Detail icon={Calendar} label="Joined" value={joined} />
           )}
           <Detail
+            icon={CircleDot}
+            label="Assigned"
+            value={room.assignedToName || "Unassigned"}
+          />
+          <Detail
             icon={Paperclip}
             label="Shared files"
             value={String(sharedFilesCount)}
@@ -209,6 +219,51 @@ export function InfoPanel({
             label="Shared links"
             value={String(sharedLinksCount)}
           />
+        </div>
+      </div>
+
+      {/* Manage — favourite / archive / status */}
+      <div className="mt-6 px-6">
+        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+          Manage
+        </h3>
+        <div className="space-y-1">
+          <div className="flex items-center justify-between py-2">
+            <span className="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+              <Star
+                className={cn(
+                  "h-4 w-4",
+                  room.favourite
+                    ? "fill-indigo-500 text-indigo-500"
+                    : "text-gray-400 dark:text-zinc-500"
+                )}
+              />{" "}
+              Favourite
+            </span>
+            <Toggle on={!!room.favourite} onClick={toggleFavourite} />
+          </div>
+          <div className="flex items-center justify-between py-2">
+            <span className="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+              <Archive className="h-4 w-4 text-gray-400 dark:text-zinc-500" />{" "}
+              Archived
+            </span>
+            <Toggle on={!!room.archived} onClick={toggleArchive} />
+          </div>
+          <div className="flex items-center justify-between py-2">
+            <span className="flex items-center gap-2 text-sm text-gray-700 dark:text-zinc-300">
+              <CircleDot className="h-4 w-4 text-gray-400 dark:text-zinc-500" />{" "}
+              Status
+            </span>
+            <select
+              value={room.status || "open"}
+              onChange={(e) => changeStatus(e.target.value as ChatRoom["status"])}
+              className="rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-800 outline-none dark:border-border dark:bg-surfaceHover dark:text-zinc-200"
+            >
+              <option value="open">Open</option>
+              <option value="assigned">Assigned</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
         </div>
       </div>
 

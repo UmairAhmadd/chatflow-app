@@ -1,8 +1,9 @@
 import { create } from "zustand";
-import type { ChatRoom, Message, User } from "./types";
+import type { ChatRoom, Message, User, Workspace } from "./types";
 
 interface ChatState {
   currentUser: User | null;
+  workspace: Workspace | null;
   rooms: ChatRoom[];
   activeRoomId: string | null;
   messages: Record<string, Message[]>; // roomId -> messages
@@ -10,7 +11,9 @@ interface ChatState {
   typing: Record<string, string | null>; // roomId -> name of person typing
 
   setCurrentUser: (u: User | null) => void;
+  setWorkspace: (w: Workspace | null) => void;
   setRooms: (rooms: ChatRoom[]) => void;
+  updateRoom: (id: string, partial: Partial<ChatRoom>) => void;
   setActiveRoom: (id: string | null) => void;
   setMessages: (roomId: string, msgs: Message[]) => void;
   addMessage: (msg: Message) => void;
@@ -23,6 +26,7 @@ interface ChatState {
 
 export const useChatStore = create<ChatState>((set) => ({
   currentUser: null,
+  workspace: null,
   rooms: [],
   activeRoomId: null,
   messages: {},
@@ -30,7 +34,12 @@ export const useChatStore = create<ChatState>((set) => ({
   typing: {},
 
   setCurrentUser: (u) => set({ currentUser: u }),
+  setWorkspace: (w) => set({ workspace: w }),
   setRooms: (rooms) => set({ rooms }),
+  updateRoom: (id, partial) =>
+    set((s) => ({
+      rooms: s.rooms.map((r) => (r.id === id ? { ...r, ...partial } : r)),
+    })),
   setActiveRoom: (id) => set({ activeRoomId: id }),
 
   setMessages: (roomId, msgs) =>

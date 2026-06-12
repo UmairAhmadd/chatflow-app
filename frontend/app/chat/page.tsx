@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import { useChatStore } from "@/lib/store";
 import { buildRooms } from "@/lib/rooms";
-import { Sidebar, type SidebarView } from "@/components/chat/Sidebar";
-import { ChatList, type Category } from "@/components/chat/ChatList";
+import { type Category } from "@/lib/categories";
+import { Sidebar } from "@/components/chat/Sidebar";
+import { CategorySidebar } from "@/components/chat/CategorySidebar";
+import { ConversationsPanel } from "@/components/chat/ConversationsPanel";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import { InfoPanel } from "@/components/chat/InfoPanel";
 import { NewChatModal } from "@/components/chat/NewChatModal";
@@ -13,10 +15,12 @@ import { cn } from "@/lib/utils";
 import type { ChatRoom } from "@/lib/types";
 
 export default function ChatPage() {
-  const [view, setView] = useState<SidebarView>("inbox");
   const [category, setCategory] = useState<Category>("all");
+  const [query, setQuery] = useState("");
   const [modal, setModal] = useState<"dm" | "group" | null>(null);
   const [showInfo, setShowInfo] = useState(true);
+  // Mobile: which left panel is showing when no chat is open.
+  const [mobilePanel, setMobilePanel] = useState<"list" | "categories">("list");
 
   const currentUser = useChatStore((s) => s.currentUser);
   const rooms = useChatStore((s) => s.rooms);
@@ -53,26 +57,40 @@ export default function ChatPage() {
     setActiveRoom(room.id);
   };
 
+  // Mobile panel visibility (one panel at a time). Desktop shows all via lg:flex.
+  const showCategories = !activeRoom && mobilePanel === "categories";
+  const showList = !activeRoom && mobilePanel === "list";
+
   return (
     <div className="flex h-full bg-gray-50 dark:bg-background">
-      {/* 1. Icon sidebar */}
-      <Sidebar
-        view={view}
-        onView={setView}
-        onContacts={() => setModal("dm")}
-        className={activeRoom ? "hidden lg:flex" : ""}
+      {/* Column 1 — icon navigation (70px) */}
+      <Sidebar className={activeRoom ? "hidden lg:flex" : "flex"} />
+
+      {/* Column 2 — categories sidebar (220px) */}
+      <CategorySidebar
+        category={category}
+        onCategory={(c) => {
+          setCategory(c);
+          setMobilePanel("list");
+        }}
+        query={query}
+        onQuery={setQuery}
+        onSelect={selectRoom}
+        onBack={() => setMobilePanel("list")}
+        className={cn(showCategories ? "flex" : "hidden", "lg:flex")}
       />
 
-      {/* 2. Chat list */}
-      <ChatList
+      {/* Column 3 — conversations list (300px) */}
+      <ConversationsPanel
         category={category}
-        onCategory={setCategory}
+        query={query}
         onSelect={selectRoom}
         onNew={(mode) => setModal(mode)}
-        className={activeRoom ? "hidden lg:flex" : "flex"}
+        onOpenCategories={() => setMobilePanel("categories")}
+        className={cn(showList ? "flex" : "hidden", "lg:flex")}
       />
 
-      {/* 3. Chat window */}
+      {/* Column 4 — main chat area */}
       <ChatWindow
         room={activeRoom}
         onBack={() => setActiveRoom(null)}
@@ -81,7 +99,7 @@ export default function ChatPage() {
         className={activeRoom ? "flex" : "hidden lg:flex"}
       />
 
-      {/* 4. Right info panel — desktop (xl) only, toggleable */}
+      {/* Collapsible right profile panel — desktop (xl) only */}
       <InfoPanel
         room={activeRoom}
         className={cn("hidden", showInfo && "xl:flex")}

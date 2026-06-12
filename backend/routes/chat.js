@@ -19,6 +19,7 @@ router.get("/conversations", protect, async (req, res) => {
     })
       .populate("participants", "-password")
       .populate("lastMessage")
+      .populate("assignedTo", "name avatar")
       .sort({ updatedAt: -1 });
 
     const groups = await Group.find({
@@ -26,6 +27,7 @@ router.get("/conversations", protect, async (req, res) => {
       workspace: req.user.workspace,
     })
       .populate("lastMessage")
+      .populate("assignedTo", "name avatar")
       .sort({ updatedAt: -1 });
 
     // Real per-room unread count: messages not sent by me and not yet read by me.
@@ -69,6 +71,77 @@ router.post("/dm", protect, async (req, res) => {
       convo = await convo.populate("participants", "-password");
     }
     res.json(convo);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+const modelFor = (roomType) => (roomType === "group" ? Group : Conversation);
+
+// POST /api/chat/:roomId/favourite — toggle favourite for the current user
+router.post("/:roomId/favourite", protect, async (req, res) => {
+  try {
+    const doc = await modelFor(req.body.roomType).findById(req.params.roomId);
+    if (!doc) return res.status(404).json({ message: "Room not found" });
+    const uid = String(req.user._id);
+    const has = (doc.favouritedBy || []).some((id) => String(id) === uid);
+    doc.favouritedBy = has
+      ? doc.favouritedBy.filter((id) => String(id) !== uid)
+      : [...(doc.favouritedBy || []), req.user._id];
+    await doc.save();
+    res.json({ favourite: !has });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// POST /api/chat/:roomId/archive — toggle archived for the current user
+router.post("/:roomId/archive", protect, async (req, res) => {
+  try {
+    const doc = await modelFor(req.body.roomType).findById(req.params.roomId);
+    if (!doc) return res.status(404).json({ message: "Room not found" });
+    const uid = String(req.user._id);
+    const has = (doc.archivedBy || []).some((id) => String(id) === uid);
+    doc.archivedBy = has
+      ? doc.archivedBy.filter((id) => String(id) !== uid)
+      : [...(doc.archivedBy || []), req.user._id];
+    await doc.save();
+    res.json({ archived: !has });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// PUT /api/chat/:roomId/status — set the shared status (open/assigned/closed)
+router.put("/:roomId/status", protect, async (req, res) => {
+  try {
+    const { roomType, status } = req.body;
+    if (!["open", "assigned", "closed"].includes(status))
+      return res.status(400).json({ message: "Invalid status" });
+    const doc = await modelFor(roomType).findByIdAndUpdate(
+      req.params.roomId,
+      { status },
+      { new: true }
+    );
+    if (!doc) return res.status(404).json({ message: "Room not found" });
+    res.json({ status: doc.status });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// PUT /api/chat/:roomId/assign — assign the room to a user (or null to clear)
+router.put("/:roomId/assign", protect, async (req, res) => {
+  try {
+    const { roomType, userId } = req.body;
+    const update = userId
+      ? { assignedTo: userId, status: "assigned" }
+      : { assignedTo: null, status: "open" };
+    const doc = await modelFor(roomType)
+      .findByIdAndUpdate(req.params.roomId, update, { new: true })
+      .populate("assignedTo", "name avatar");
+    if (!doc) return res.status(404).json({ message: "Room not found" });
+    res.json({ assignedTo: doc.assignedTo, status: doc.status });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

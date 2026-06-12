@@ -11,6 +11,15 @@ const groupSchema = new mongoose.Schema(
       ref: "Workspace",
       index: true,
     },
+    // Per-user flags + shared status (used by the sidebar categories).
+    favouritedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    archivedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    status: {
+      type: String,
+      enum: ["open", "assigned", "closed"],
+      default: "open",
+    },
+    assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
     lastMessage: { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
   },
   { timestamps: true }

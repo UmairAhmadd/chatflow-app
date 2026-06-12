@@ -8,6 +8,7 @@ import { cn, timeAgo } from "@/lib/utils";
 import { useChatStore } from "@/lib/store";
 import { Avatar } from "@/components/ui/Avatar";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { RoomActions } from "./RoomActions";
 import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
 import type { ChatRoom, Message, User } from "@/lib/types";
@@ -159,6 +160,9 @@ export function ChatWindow({
               : "Offline"}
           </p>
         </div>
+
+        {/* Room actions — favourite/archive/status/assign (all screen sizes) */}
+        <RoomActions room={room} />
 
         {/* Theme toggle */}
         <ThemeToggle />
