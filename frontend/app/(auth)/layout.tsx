@@ -49,10 +49,10 @@ export default function AuthLayout({
         </div>
 
         {/* Robot: small + visible on mobile (190px), full on desktop. */}
-        <div className="relative mx-auto mt-6 h-[185px] w-[190px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
+        <div className="relative mx-auto mt-6 h-[220px] w-[190px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
           <SplineScene
             scene={SCENE_URL}
-            className="h-full w-full scale-[0.7] lg:scale-100"
+            className="h-full w-full scale-[0.8] lg:scale-100"
           />
 
           {/* Floating activity cards — shown on all sizes; smaller + closer
