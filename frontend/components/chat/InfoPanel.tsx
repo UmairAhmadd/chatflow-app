@@ -109,7 +109,7 @@ export function InfoPanel({
     return (
       <aside
         className={cn(
-          "w-[300px] flex-col overflow-y-auto border-l border-gray-200 bg-white px-5 py-6 dark:border-border dark:bg-surface",
+          "w-[20%] min-w-[260px] flex-col overflow-y-auto border-l border-gray-200 bg-white px-5 py-6 dark:border-border dark:bg-surface",
           className
         )}
       >
@@ -195,7 +195,7 @@ export function InfoPanel({
   return (
     <aside
       className={cn(
-        "w-[300px] flex-col overflow-y-auto border-l border-gray-200 bg-white dark:border-border dark:bg-surface",
+        "w-[20%] min-w-[260px] flex-col overflow-y-auto border-l border-gray-200 bg-white dark:border-border dark:bg-surface",
         className
       )}
     >

@@ -39,6 +39,7 @@ export function ConversationsPanel({
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const rooms = useChatStore((s) => s.rooms);
+  const roomsLoaded = useChatStore((s) => s.roomsLoaded);
   const activeRoomId = useChatStore((s) => s.activeRoomId);
   const onlineUserIds = useChatStore((s) => s.onlineUserIds);
   const currentUser = useChatStore((s) => s.currentUser);
@@ -51,7 +52,7 @@ export function ConversationsPanel({
   return (
     <div
       className={cn(
-        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[300px] lg:shrink-0",
+        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[24%] lg:min-w-[240px] lg:shrink-0",
         className
       )}
     >
@@ -109,7 +110,8 @@ export function ConversationsPanel({
 
       {/* List */}
       <div className="flex-1 space-y-0.5 overflow-y-auto px-2 py-2 pb-20 lg:pb-2">
-        {filtered.length === 0 ? (
+        {!roomsLoaded ? (
+          // Skeletons only while the conversation list is loading.
           <div className="space-y-1 px-1 py-1">
             {Array.from({ length: 5 }).map((_, i) => (
               <div
@@ -123,9 +125,24 @@ export function ConversationsPanel({
                 </div>
               </div>
             ))}
-            <p className="px-3 pt-2 text-center text-xs text-gray-400 dark:text-zinc-500">
-              No conversations here
-            </p>
+          </div>
+        ) : filtered.length === 0 ? (
+          // Loaded but empty → Getting Started checklist.
+          <div className="px-3 py-6">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+              Getting Started
+            </h3>
+            <ul className="space-y-2.5 text-sm text-gray-600 dark:text-zinc-300">
+              <li className="flex items-center gap-2">
+                <span className="text-indigo-500">✓</span> Create first conversation
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-indigo-500">✓</span> Invite teammates
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-indigo-500">✓</span> Share files
+              </li>
+            </ul>
           </div>
         ) : (
           filtered.map((room) => {

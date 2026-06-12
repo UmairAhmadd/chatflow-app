@@ -25,16 +25,20 @@ export default function ChatPage() {
   const currentUser = useChatStore((s) => s.currentUser);
   const rooms = useChatStore((s) => s.rooms);
   const setRooms = useChatStore((s) => s.setRooms);
+  const setRoomsLoaded = useChatStore((s) => s.setRoomsLoaded);
   const activeRoomId = useChatStore((s) => s.activeRoomId);
   const setActiveRoom = useChatStore((s) => s.setActiveRoom);
 
   // Load all conversations once we know who we are.
   useEffect(() => {
     if (!currentUser?._id) return;
-    api.get("/chat/conversations").then(({ data }) => {
-      setRooms(buildRooms(data.dms, data.groups, currentUser._id, data.unread));
-    });
-  }, [currentUser?._id, setRooms]);
+    api
+      .get("/chat/conversations")
+      .then(({ data }) => {
+        setRooms(buildRooms(data.dms, data.groups, currentUser._id, data.unread));
+      })
+      .finally(() => setRoomsLoaded(true));
+  }, [currentUser?._id, setRooms, setRoomsLoaded]);
 
   const activeRoom = rooms.find((r) => r.id === activeRoomId) || null;
 

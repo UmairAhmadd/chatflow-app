@@ -88,7 +88,7 @@ export function CategorySidebar({
   return (
     <div
       className={cn(
-        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[220px] lg:shrink-0",
+        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[18%] lg:min-w-[180px] lg:shrink-0",
         className
       )}
     >
@@ -115,28 +115,21 @@ export function CategorySidebar({
 
       {/* Invite code */}
       {workspace?.inviteCode && (
-        <div className="mx-3 mb-2 shrink-0 rounded-lg border border-gray-200 bg-gray-50 p-2 dark:border-border dark:bg-surfaceHover">
-          <p className="text-[9px] font-semibold uppercase tracking-wide text-gray-400 dark:text-zinc-500">
-            Invite code
-          </p>
-          <p className="truncate font-mono text-xs tracking-wider text-gray-900 dark:text-zinc-100">
+        <button
+          onClick={copyInvite}
+          title="Copy invite code"
+          aria-label="Copy invite code"
+          className="mx-3 mb-2 flex shrink-0 items-center justify-between gap-2 rounded-md border border-gray-200 bg-gray-50 px-2.5 py-1.5 transition hover:bg-gray-100 dark:border-border dark:bg-surfaceHover dark:hover:bg-border"
+        >
+          <span className="truncate font-mono text-xs tracking-wider text-gray-900 dark:text-zinc-100">
             {workspace.inviteCode}
-          </p>
-          <button
-            onClick={copyInvite}
-            className="mt-1.5 flex w-full items-center justify-center gap-1 rounded-md bg-indigo-500 px-2 py-1 text-[10px] font-medium text-white transition hover:bg-indigo-600"
-          >
-            {copied ? (
-              <>
-                <Check className="h-3 w-3" /> Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="h-3 w-3" /> Copy Invite Code
-              </>
-            )}
-          </button>
-        </div>
+          </span>
+          {copied ? (
+            <Check className="h-3.5 w-3.5 shrink-0 text-green-500" />
+          ) : (
+            <Copy className="h-3.5 w-3.5 shrink-0 text-gray-400 dark:text-zinc-400" />
+          )}
+        </button>
       )}
 
       {/* Search */}

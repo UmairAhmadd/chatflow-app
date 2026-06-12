@@ -5,6 +5,7 @@ interface ChatState {
   currentUser: User | null;
   workspace: Workspace | null;
   rooms: ChatRoom[];
+  roomsLoaded: boolean;
   activeRoomId: string | null;
   messages: Record<string, Message[]>; // roomId -> messages
   onlineUserIds: Set<string>;
@@ -13,6 +14,7 @@ interface ChatState {
   setCurrentUser: (u: User | null) => void;
   setWorkspace: (w: Workspace | null) => void;
   setRooms: (rooms: ChatRoom[]) => void;
+  setRoomsLoaded: (v: boolean) => void;
   updateRoom: (id: string, partial: Partial<ChatRoom>) => void;
   setActiveRoom: (id: string | null) => void;
   setMessages: (roomId: string, msgs: Message[]) => void;
@@ -28,6 +30,7 @@ export const useChatStore = create<ChatState>((set) => ({
   currentUser: null,
   workspace: null,
   rooms: [],
+  roomsLoaded: false,
   activeRoomId: null,
   messages: {},
   onlineUserIds: new Set(),
@@ -36,6 +39,7 @@ export const useChatStore = create<ChatState>((set) => ({
   setCurrentUser: (u) => set({ currentUser: u }),
   setWorkspace: (w) => set({ workspace: w }),
   setRooms: (rooms) => set({ rooms }),
+  setRoomsLoaded: (v) => set({ roomsLoaded: v }),
   updateRoom: (id, partial) =>
     set((s) => ({
       rooms: s.rooms.map((r) => (r.id === id ? { ...r, ...partial } : r)),

@@ -38,7 +38,7 @@ export function Sidebar({ className }: { className?: string }) {
       className={cn(
         "flex h-11 w-11 items-center justify-center rounded-xl transition",
         isActive
-          ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400"
+          ? "bg-indigo-50 text-indigo-600 shadow-[0_0_12px_rgba(99,102,241,0.6)] dark:bg-indigo-500/20 dark:text-indigo-400"
           : "text-gray-400 hover:bg-gray-100 hover:text-gray-700 dark:text-zinc-500 dark:hover:bg-surfaceHover dark:hover:text-zinc-200"
       )}
     >
