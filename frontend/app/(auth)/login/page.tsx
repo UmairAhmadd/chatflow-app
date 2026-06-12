@@ -59,7 +59,7 @@ export default function LoginPage() {
       </div>
 
       {/* Social proof */}
-      <ul className="mb-4 grid grid-cols-2 gap-x-3 gap-y-1.5 text-[10px] text-zinc-400 lg:mb-6 lg:gap-x-4 lg:gap-y-2 lg:text-xs">
+      <ul className="mb-4 grid grid-cols-1 gap-x-3 gap-y-1.5 text-[10px] text-zinc-400 lg:mb-6 lg:grid-cols-2 lg:gap-x-4 lg:gap-y-2 lg:text-xs">
         {FEATURES.map((f) => (
           <li key={f} className="flex items-center gap-1 whitespace-nowrap lg:gap-1.5">
             <Check className="h-3 w-3 shrink-0 text-accent lg:h-3.5 lg:w-3.5" />
@@ -128,7 +128,7 @@ export default function LoginPage() {
 
       <button
         onClick={() => signIn("google", { callbackUrl: "/chat" })}
-        className="btn-ghost h-10 w-full whitespace-nowrap border-white/10 text-[13px] hover:border-white/20 hover:bg-white/10 lg:h-auto lg:text-sm"
+        className="btn-ghost h-12 w-full whitespace-nowrap border-white/10 text-sm hover:border-white/20 hover:bg-white/10 lg:h-auto"
       >
         <GoogleIcon /> Continue with Google
       </button>

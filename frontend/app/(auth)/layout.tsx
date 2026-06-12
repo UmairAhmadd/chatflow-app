@@ -4,9 +4,12 @@ import dynamic from "next/dynamic";
 
 const SCENE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
 
-// Glassmorphism floating cards around the robot. Smaller on mobile, full on lg.
-const cardClass =
-  "pointer-events-none absolute z-10 hidden animate-float whitespace-nowrap rounded-xl border border-white/15 bg-white/[0.08] px-[14px] py-2 text-xs text-white backdrop-blur-[10px] lg:block";
+// Glassmorphism floating cards around the robot. Shown on all sizes.
+// Outer wrapper holds position + scale (scale lives here, not on the animated
+// element, because the float keyframe overrides `transform`). Inner floats.
+const cardWrap = "pointer-events-none absolute z-10 scale-[0.65] lg:scale-100";
+const cardInner =
+  "animate-float whitespace-nowrap rounded-xl border border-white/15 bg-white/[0.08] px-2 py-1 text-xs text-white backdrop-blur-[10px] lg:px-[14px] lg:py-2";
 
 // Lazy-load the heavy Spline 3D scene on the client only (no SSR). The dynamic
 // `loading` fallback shows a dark placeholder while the bundle downloads — this
@@ -45,31 +48,44 @@ export default function AuthLayout({
           </p>
         </div>
 
-        {/* Robot: small + visible on mobile (160px), full on desktop. */}
-        <div className="relative mx-auto mt-3 h-[220px] w-[180px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
+        {/* Robot: small + visible on mobile (190px), full on desktop. */}
+        <div className="relative mx-auto mt-6 h-[185px] w-[190px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
           <SplineScene
             scene={SCENE_URL}
             className="h-full w-full scale-[0.7] lg:scale-100"
           />
 
-          {/* Floating activity cards — desktop only (hidden on mobile) */}
-          <div className={cardClass} style={{ top: "12%", left: "6%", animationDelay: "0s" }}>
-            💬 New Message
+          {/* Floating activity cards — shown on all sizes; smaller + closer
+              to the robot on mobile, full size/position on desktop. */}
+          <div className={`${cardWrap} left-[2%] top-[8%] lg:left-[6%] lg:top-[12%]`}>
+            <div className={cardInner} style={{ animationDelay: "0s" }}>
+              💬<span className="lg:hidden"> New</span>
+              <span className="hidden lg:inline"> New Message</span>
+            </div>
           </div>
-          <div className={cardClass} style={{ top: "12%", right: "6%", animationDelay: "0.8s" }}>
-            👥 5 Members Online
+          <div className={`${cardWrap} right-[2%] top-[8%] lg:right-[6%] lg:top-[12%]`}>
+            <div className={cardInner} style={{ animationDelay: "0.8s" }}>
+              👥<span className="lg:hidden"> 5 online</span>
+              <span className="hidden lg:inline"> 5 Members Online</span>
+            </div>
           </div>
-          <div className={cardClass} style={{ bottom: "12%", left: "6%", animationDelay: "1.6s" }}>
-            📎 File Shared
+          <div className={`${cardWrap} bottom-[8%] left-[2%] lg:bottom-[12%] lg:left-[6%]`}>
+            <div className={cardInner} style={{ animationDelay: "1.6s" }}>
+              📎<span className="lg:hidden"> File</span>
+              <span className="hidden lg:inline"> File Shared</span>
+            </div>
           </div>
-          <div className={cardClass} style={{ bottom: "12%", right: "6%", animationDelay: "2.4s" }}>
-            🔔 3 Notifications
+          <div className={`${cardWrap} bottom-[8%] right-[2%] lg:bottom-[12%] lg:right-[6%]`}>
+            <div className={cardInner} style={{ animationDelay: "2.4s" }}>
+              🔔<span className="lg:hidden"> 3 alerts</span>
+              <span className="hidden lg:inline"> 3 Notifications</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Login card — below on mobile (order-2), left column on desktop (order-1) */}
-      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-4 lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
+      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-[30px] lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
         <div className="w-full max-w-[360px] lg:max-w-[380px]">{children}</div>
       </div>
     </div>
