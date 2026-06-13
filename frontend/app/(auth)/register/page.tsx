@@ -63,13 +63,13 @@ export default function RegisterPage() {
           </div>
           <span className="text-lg font-semibold text-white">ChatFlow</span>
         </div>
-        <p className="mt-2 text-[11px] text-muted lg:text-sm">
+        <p className="mt-2 text-xs text-muted lg:text-sm">
           Built for modern teams
         </p>
       </div>
 
       {/* Social proof */}
-      <ul className="mb-4 grid grid-cols-1 gap-x-3 gap-y-1.5 text-[10px] text-zinc-400 lg:mb-6 lg:grid-cols-2 lg:gap-x-4 lg:gap-y-2 lg:text-xs">
+      <ul className="mb-4 grid grid-cols-1 gap-x-3 gap-y-2 text-xs text-zinc-400 lg:mb-6 lg:grid-cols-2 lg:gap-x-4 lg:text-xs">
         {FEATURES.map((f) => (
           <li key={f} className="flex items-center gap-1 whitespace-nowrap lg:gap-1.5">
             <Check className="h-3 w-3 shrink-0 text-accent lg:h-3.5 lg:w-3.5" />

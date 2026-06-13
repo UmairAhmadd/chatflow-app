@@ -71,7 +71,7 @@ export function ConversationsPanel({
         <div className="relative">
           <button
             onClick={() => setMenuOpen((o) => !o)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500 text-white transition hover:bg-indigo-600"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500 text-white transition-all duration-200 hover:scale-[1.02] hover:bg-indigo-600 hover:shadow-[0_0_12px_rgba(99,102,241,0.5)]"
             title="New conversation"
             aria-label="New conversation"
           >

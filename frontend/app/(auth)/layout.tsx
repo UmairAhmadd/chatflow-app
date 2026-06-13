@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const SCENE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
 
@@ -32,12 +33,23 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Only MOUNT the heavy 3D scene at md+ (CSS-hiding still mounts/downloads it).
+  // Phones never request the Spline bundle.
+  const [showRobot, setShowRobot] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setShowRobot(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   return (
     // Mobile: vertical stack (hero + robot on top, card below).
     // Desktop: side-by-side (form left, robot right) via lg:flex-row.
     <div className="flex min-h-screen flex-col overflow-x-hidden bg-[linear-gradient(180deg,#0f172a,#020617)] lg:flex-row">
-      {/* Hero + robot — top on mobile (order-1), right column on desktop (order-2) */}
-      <div className="order-1 flex w-full flex-col items-center overflow-hidden pt-8 lg:order-2 lg:w-auto lg:flex-1 lg:pt-0">
+      {/* Hero + robot — hidden below md; top on tablet, right column on desktop */}
+      <div className="order-1 hidden w-full flex-col items-center overflow-hidden pt-8 md:flex lg:order-2 lg:w-auto lg:flex-1 lg:pt-0">
         {/* Heading */}
         <div className="px-6 text-center lg:px-10 lg:pt-10">
           <h2 className="mb-1 text-lg font-semibold text-white lg:mb-2 lg:text-2xl">
@@ -50,10 +62,12 @@ export default function AuthLayout({
 
         {/* Robot: small + visible on mobile (190px), full on desktop. */}
         <div className="relative mx-auto mt-6 h-[220px] w-[190px] max-w-full overflow-hidden lg:mt-4 lg:h-[480px] lg:w-full">
-          <SplineScene
-            scene={SCENE_URL}
-            className="h-full w-full scale-[0.8] lg:scale-100"
-          />
+          {showRobot && (
+            <SplineScene
+              scene={SCENE_URL}
+              className="h-full w-full scale-[0.8] lg:scale-100"
+            />
+          )}
 
           {/* Floating activity cards — shown on all sizes; smaller + closer
               to the robot on mobile, full size/position on desktop. */}
@@ -85,8 +99,12 @@ export default function AuthLayout({
       </div>
 
       {/* Login card — below on mobile (order-2), left column on desktop (order-1) */}
-      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-[12px] lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
-        <div className="w-full max-w-[360px] lg:max-w-[380px]">{children}</div>
+      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-6 lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
+        {/* Small decorative robot — phones only (robot hero hidden below md). */}
+        <div className="mb-5 flex h-[90px] w-[90px] shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] text-5xl backdrop-blur-sm md:hidden">
+          🤖
+        </div>
+        <div className="w-full max-w-md lg:max-w-[380px]">{children}</div>
       </div>
     </div>
   );

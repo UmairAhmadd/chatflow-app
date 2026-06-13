@@ -101,7 +101,7 @@ export function ChatWindow({
             </p>
             <button
               onClick={onNewChat}
-              className="mt-5 inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-600"
+              className="mt-5 inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:scale-[1.02] hover:bg-indigo-600 hover:shadow-[0_0_12px_rgba(99,102,241,0.5)]"
             >
               <Plus className="h-4 w-4" /> New Conversation
             </button>
