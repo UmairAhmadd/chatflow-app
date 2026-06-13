@@ -100,9 +100,36 @@ export default function AuthLayout({
 
       {/* Login card — below on mobile (order-2), left column on desktop (order-1) */}
       <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-3 md:pt-6 lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
-        {/* Small decorative robot mark — phones only, no surrounding box. */}
-        <div className="mb-2 text-5xl md:hidden" aria-hidden="true">
+        {/* Robot mark with tiny floating icon bubbles — phones only. */}
+        <div
+          className="relative mb-3 text-5xl leading-none md:hidden"
+          aria-hidden="true"
+        >
           🤖
+          <span
+            className="absolute -left-8 -top-1 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            style={{ animationDelay: "0s" }}
+          >
+            💬
+          </span>
+          <span
+            className="absolute -right-8 -top-1 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            style={{ animationDelay: "0.5s" }}
+          >
+            👥
+          </span>
+          <span
+            className="absolute -bottom-1 -left-8 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            style={{ animationDelay: "1s" }}
+          >
+            📎
+          </span>
+          <span
+            className="absolute -bottom-1 -right-8 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            style={{ animationDelay: "1.5s" }}
+          >
+            🔔
+          </span>
         </div>
         <div className="w-full max-w-md lg:max-w-[380px]">{children}</div>
       </div>

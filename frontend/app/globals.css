@@ -28,6 +28,20 @@ body {
   animation: float 4s ease-in-out infinite;
 }
 
+/* Gentler float for the small mobile robot bubbles. */
+@keyframes float-sm {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.animate-float-sm {
+  animation: float-sm 3.5s ease-in-out infinite;
+}
+
 /* On phones, iOS Safari auto-zooms when focusing a control whose font-size is
    below 16px (our inputs use text-sm = 14px). Force 16px on small screens to
    stop the zoom; desktop keeps the denser text-sm via the utility classes. */
