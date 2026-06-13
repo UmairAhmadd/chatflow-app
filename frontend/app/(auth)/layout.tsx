@@ -99,9 +99,9 @@ export default function AuthLayout({
       </div>
 
       {/* Login card — below on mobile (order-2), left column on desktop (order-1) */}
-      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-6 lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
-        {/* Small decorative robot — phones only (robot hero hidden below md). */}
-        <div className="mb-5 flex h-[90px] w-[90px] shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] text-5xl backdrop-blur-sm md:hidden">
+      <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-3 md:pt-6 lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
+        {/* Small decorative robot mark — phones only, no surrounding box. */}
+        <div className="mb-2 text-5xl md:hidden" aria-hidden="true">
           🤖
         </div>
         <div className="w-full max-w-md lg:max-w-[380px]">{children}</div>
