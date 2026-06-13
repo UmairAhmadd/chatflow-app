@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { MessagesSquare } from "lucide-react";
 
 const SCENE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
 
@@ -47,7 +48,7 @@ export default function AuthLayout({
   return (
     // Mobile: vertical stack (hero + robot on top, card below).
     // Desktop: side-by-side (form left, robot right) via lg:flex-row.
-    <div className="flex min-h-screen flex-col overflow-x-hidden bg-[linear-gradient(180deg,#0f172a,#020617)] lg:flex-row">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-[linear-gradient(180deg,#1a1040,#0d0820)] md:bg-[linear-gradient(180deg,#0f172a,#020617)] lg:flex-row">
       {/* Hero + robot — hidden below md; top on tablet, right column on desktop */}
       <div className="order-1 hidden w-full flex-col items-center overflow-hidden pt-8 md:flex lg:order-2 lg:w-auto lg:flex-1 lg:pt-0">
         {/* Heading */}
@@ -100,32 +101,41 @@ export default function AuthLayout({
 
       {/* Login card — below on mobile (order-2), left column on desktop (order-1) */}
       <div className="order-2 flex w-full flex-col items-center justify-start px-4 pb-10 pt-3 md:pt-6 lg:order-1 lg:w-auto lg:flex-1 lg:justify-center lg:px-6 lg:py-12">
-        {/* Robot mark with tiny floating icon bubbles — phones only. */}
+        {/* Hero — ChatFlow icon ringed by floating bubbles (phones only). */}
         <div
-          className="relative mb-3 text-5xl leading-none md:hidden"
+          className="relative mb-6 flex h-36 w-36 items-center justify-center md:hidden"
           aria-hidden="true"
         >
-          🤖
+          {/* Dashed orbit ring */}
+          <div className="absolute inset-0 rounded-full border border-dashed border-white/20" />
+
+          {/* App icon */}
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent shadow-lg shadow-indigo-500/30">
+            <MessagesSquare className="h-8 w-8 text-white" />
+          </div>
+
+          {/* Floating bubbles — positioned via offsets (no transform) so the
+              float animation's transform doesn't fight the positioning. */}
           <span
-            className="absolute -left-8 -top-1 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            className="absolute left-[54px] -top-[18px] flex h-9 w-9 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-base backdrop-blur-sm"
             style={{ animationDelay: "0s" }}
           >
             💬
           </span>
           <span
-            className="absolute -right-8 -top-1 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            className="absolute -right-[18px] top-[18px] flex h-9 w-9 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-base backdrop-blur-sm"
             style={{ animationDelay: "0.5s" }}
           >
             👥
           </span>
           <span
-            className="absolute -bottom-1 -left-8 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            className="absolute -left-[18px] bottom-[18px] flex h-9 w-9 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-base backdrop-blur-sm"
             style={{ animationDelay: "1s" }}
           >
             📎
           </span>
           <span
-            className="absolute -bottom-1 -right-8 flex h-8 w-8 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-sm backdrop-blur-sm"
+            className="absolute -right-[18px] bottom-[18px] flex h-9 w-9 animate-float-sm items-center justify-center rounded-full border border-white/10 bg-white/[0.08] text-base backdrop-blur-sm"
             style={{ animationDelay: "1.5s" }}
           >
             🔔

@@ -59,9 +59,12 @@ export default function LoginPage() {
       </div>
 
       {/* Social proof */}
-      <ul className="mb-4 grid grid-cols-1 gap-x-3 gap-y-2 text-xs text-zinc-400 lg:mb-6 lg:grid-cols-2 lg:gap-x-4 lg:text-xs">
+      <ul className="mb-4 grid grid-cols-2 gap-2 text-xs text-zinc-400 lg:mb-6 lg:gap-x-4 lg:gap-y-2">
         {FEATURES.map((f) => (
-          <li key={f} className="flex items-center gap-1 whitespace-nowrap lg:gap-1.5">
+          <li
+            key={f}
+            className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1.5 lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-0"
+          >
             <Check className="h-3 w-3 shrink-0 text-accent lg:h-3.5 lg:w-3.5" />
             {f}
           </li>
