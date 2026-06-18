@@ -179,7 +179,7 @@ export function ChatWindow({
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 min-h-0 space-y-2 overflow-y-auto overflow-x-hidden overscroll-contain px-3 py-4 lg:px-6">
+      <div ref={scrollRef} className="flex-1 min-h-0 space-y-2 overflow-y-auto overflow-x-hidden overscroll-contain [scrollbar-gutter:stable] [-webkit-overflow-scrolling:touch] px-3 py-4 lg:px-6">
         {(messages || []).map((m: Message, i: number) => {
           const senderId =
             typeof m.sender === "string" ? m.sender : m.sender._id;

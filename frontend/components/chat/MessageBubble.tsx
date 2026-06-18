@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Check, CheckCheck, FileText } from "lucide-react";
@@ -7,7 +8,7 @@ import { cn, formatTime } from "@/lib/utils";
 import { Avatar } from "@/components/ui/Avatar";
 import type { Message, User } from "@/lib/types";
 
-export function MessageBubble({
+export const MessageBubble = memo(function MessageBubble({
   message,
   mine,
   showAvatar,
@@ -59,7 +60,7 @@ export function MessageBubble({
               alt="shared image"
               width={240}
               height={240}
-              className="mb-1 rounded-lg object-cover"
+              className="mb-1 h-auto max-w-full rounded-lg object-cover"
             />
           )}
           {message.type === "file" && message.fileUrl && (
@@ -98,4 +99,4 @@ export function MessageBubble({
       </div>
     </motion.div>
   );
-}
+});

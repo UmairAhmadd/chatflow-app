@@ -146,7 +146,7 @@ export function CategorySidebar({
       </div>
 
       {/* Nav links + categories */}
-      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-2">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-2">
         <nav className="space-y-0.5 px-1">
           {NAV_LINKS.map(({ icon: Icon, label }) => (
             <button

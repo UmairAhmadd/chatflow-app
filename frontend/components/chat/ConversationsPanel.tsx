@@ -109,7 +109,7 @@ export function ConversationsPanel({
       </div>
 
       {/* List */}
-      <div className="flex-1 min-h-0 space-y-0.5 overflow-y-auto overscroll-contain px-2 py-2 pb-20 lg:pb-2">
+      <div className="flex-1 min-h-0 space-y-0.5 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-2 py-2 pb-20 lg:pb-2">
         {!roomsLoaded ? (
           // Skeletons only while the conversation list is loading.
           <div className="space-y-1 px-1 py-1">
