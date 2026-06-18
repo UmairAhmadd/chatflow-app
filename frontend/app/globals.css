@@ -12,6 +12,7 @@ html.dark {
 html,
 body {
   height: 100%;
+  overflow-x: hidden;
 }
 
 /* Gentle floating motion for the auth-page activity cards. */

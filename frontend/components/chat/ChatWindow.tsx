@@ -72,7 +72,7 @@ export function ChatWindow({
     return (
       <div
         className={cn(
-          "relative flex-1 flex-col items-center justify-center bg-gray-50 px-6 text-center dark:bg-[#161622]",
+          "relative flex-1 flex-col items-center justify-center overflow-y-auto overscroll-contain min-h-0 min-w-0 bg-gray-50 px-6 text-center dark:bg-[#161622]",
           className
         )}
       >
@@ -179,7 +179,7 @@ export function ChatWindow({
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 min-h-0 space-y-2 overflow-y-auto overflow-x-hidden px-4 py-4 lg:px-6">
+      <div ref={scrollRef} className="flex-1 min-h-0 space-y-2 overflow-y-auto overflow-x-hidden overscroll-contain px-3 py-4 lg:px-6">
         {(messages || []).map((m: Message, i: number) => {
           const senderId =
             typeof m.sender === "string" ? m.sender : m.sender._id;
