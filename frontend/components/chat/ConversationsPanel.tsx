@@ -52,7 +52,7 @@ export function ConversationsPanel({
   return (
     <div
       className={cn(
-        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[24%] lg:min-w-[240px] lg:shrink-0",
+        "w-full min-h-0 flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[24%] lg:min-w-[240px] lg:shrink-0",
         className
       )}
     >
@@ -109,7 +109,7 @@ export function ConversationsPanel({
       </div>
 
       {/* List */}
-      <div className="flex-1 space-y-0.5 overflow-y-auto px-2 py-2 pb-20 lg:pb-2">
+      <div className="flex-1 min-h-0 space-y-0.5 overflow-y-auto px-2 py-2 pb-20 lg:pb-2">
         {!roomsLoaded ? (
           // Skeletons only while the conversation list is loading.
           <div className="space-y-1 px-1 py-1">

@@ -46,11 +46,11 @@ export default function ChatLayout({
 
   if (status === "loading") {
     return (
-      <div className="flex h-screen items-center justify-center bg-gray-50 dark:bg-background">
+      <div className="flex h-dvh items-center justify-center bg-gray-50 dark:bg-background">
         <Loader2 className="h-6 w-6 animate-spin text-indigo-500" />
       </div>
     );
   }
 
-  return <div className="h-screen overflow-hidden bg-white dark:bg-background">{children}</div>;
+  return <div className="h-dvh overflow-hidden bg-white dark:bg-background">{children}</div>;
 }

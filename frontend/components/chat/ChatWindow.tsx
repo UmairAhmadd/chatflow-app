@@ -121,9 +121,9 @@ export function ChatWindow({
       : undefined;
 
   return (
-    <div className={cn("flex-1 flex-col bg-gray-50 dark:bg-[#161622]", className)}>
+    <div className={cn("flex-1 flex-col min-h-0 min-w-0 overflow-hidden bg-gray-50 dark:bg-[#161622]", className)}>
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 dark:border-border dark:bg-[#161622] lg:px-5">
+      <div className="flex shrink-0 items-center gap-3 border-b border-gray-200 bg-white px-4 py-3 dark:border-border dark:bg-[#161622] lg:px-5">
         {/* Back button — mobile only, returns to the chat list */}
         <button
           onClick={onBack}
@@ -179,7 +179,7 @@ export function ChatWindow({
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 space-y-2 overflow-y-auto px-4 py-4 lg:px-6">
+      <div ref={scrollRef} className="flex-1 min-h-0 space-y-2 overflow-y-auto overflow-x-hidden px-4 py-4 lg:px-6">
         {(messages || []).map((m: Message, i: number) => {
           const senderId =
             typeof m.sender === "string" ? m.sender : m.sender._id;

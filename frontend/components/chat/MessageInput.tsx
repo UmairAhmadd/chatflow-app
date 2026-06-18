@@ -73,7 +73,7 @@ export function MessageInput({ room }: { room: ChatRoom }) {
   };
 
   return (
-    <div className="border-t border-gray-200 bg-white px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] dark:border-border dark:bg-[#161622] lg:px-4">
+    <div className="shrink-0 border-t border-gray-200 bg-white px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] dark:border-border dark:bg-[#161622] lg:px-4">
       <div className="flex items-end gap-2">
         {/* Emoji */}
         <div className="relative">

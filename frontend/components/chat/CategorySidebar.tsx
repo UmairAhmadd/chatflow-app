@@ -88,7 +88,7 @@ export function CategorySidebar({
   return (
     <div
       className={cn(
-        "w-full flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[18%] lg:min-w-[180px] lg:shrink-0",
+        "w-full min-h-0 flex-col border-r border-gray-200 bg-white dark:border-border dark:bg-[#111118] lg:w-[18%] lg:min-w-[180px] lg:shrink-0",
         className
       )}
     >
@@ -146,7 +146,7 @@ export function CategorySidebar({
       </div>
 
       {/* Nav links + categories */}
-      <div className="flex-1 overflow-y-auto px-2">
+      <div className="flex-1 min-h-0 overflow-y-auto px-2">
         <nav className="space-y-0.5 px-1">
           {NAV_LINKS.map(({ icon: Icon, label }) => (
             <button

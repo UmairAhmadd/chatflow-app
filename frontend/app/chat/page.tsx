@@ -66,7 +66,7 @@ export default function ChatPage() {
   const showList = !activeRoom && mobilePanel === "list";
 
   return (
-    <div className="flex h-full bg-gray-50 dark:bg-background">
+    <div className="flex h-full min-h-0 overflow-hidden bg-gray-50 dark:bg-background">
       {/* Column 1 — icon navigation (70px) */}
       <Sidebar className={activeRoom ? "hidden lg:flex" : "flex"} />
 
